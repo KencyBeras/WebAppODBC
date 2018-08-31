@@ -1,0 +1,9 @@
+Hay que ver como queda la estructura del proyecto, creo que con las carpetas que se crearon va a quedar bien. Sobre los 2 index.php: hacen referencia al FrontController (el de app) y la página inicial (el del directorio raíz). Fijate si hay que modificar y lo charlamos.
+
+Otra cosa que hay que agregar son los recursos/frameworks/librerías generalmente de la carpeta public. Eso se puede hacer de forma genérica, pero hay que elegir cuáles usamos.
+
+Entonces los pasos a seguir pre-requisitos serían:
+- Chequear estructura del proyecto.
+- Agregar bootstrap/materialize, lenguajes, conectores, frameworks o cualquier librería que necesitemos.
+- Archivo de conexión ODBC para usar en todos los DAO y testearlo en la VM así ya lo tenemos.
+- Crear archivos genéricos (como front-controller, index común con el contenido básico, header y footer de página, favicon UNLa, etc).
