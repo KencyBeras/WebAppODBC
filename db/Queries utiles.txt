@@ -1,0 +1,2 @@
+Para traer la hora y los minutos de un turno:
+SELECT DATE_FORMAT(fechahora,'%H:%i') from turno;
