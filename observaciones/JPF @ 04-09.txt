@@ -1,0 +1,9 @@
+Los problemas/alternativas que se presentan al diseñar el DER son los siguientes:
+
+1- Si se crea tabla intermedia entre filial y tipocancha: Se pueden tener las canchas precargadas con el deporte y la categoría (en tipocancha), y en la tabla intermedia (cancha) el detalle de dicha cancha con un deporte, una categoría y una filial determinada. Podría llegar a ser innecesario tener una tabla extra ya que las tipos de canchas se podrían validar por interfaz.
+
+2- Si se crea una relación fuerte entre filial y cancha (0-n) se puede saber a qué filial pertenece una cancha determinada. No se tienen datos precargados. El problema es que, si bien al unir cancha con turno se tienen los datos necesarios para éste último, filial no se conecta directamente con turno y me da algo de desconfianza.
+
+3- Otra opción sería conectar filial y cancha con turno, pero sería redundante ya que la filial contiene (o debería contener) la lista de canchas que hay en la misma.
+
+Hay que resolver cual de esas tres opciones conviene más para este problema
