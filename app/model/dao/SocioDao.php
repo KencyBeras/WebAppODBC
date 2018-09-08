@@ -31,6 +31,7 @@ class SocioDao {
                                     $direccion, $telefono, $email);
                 $socio->setIdSocio($fila['idsocio']);
                 $socio->setNumAfiliado($fila['num_afiliado']);
+            }
         }
         catch(Exception $e){
             echo $e->getMessage();
