@@ -19,11 +19,13 @@ class DataSource {
 		$result = null;
 		try{
 			$conn=odbc_connect($this->dsn,'','');
-			if (!$conn) throw new Exception("error al conectarse al origen de datos");
+			if(!$conn) throw new Exception("error al conectarse al origen de datos");
 			$result=odbc_exec($conn, $sql);
+			if(!$result) throw new Exception("error al realizar la consulta: " . $sql);
 		}
 		catch(Exception $e){
 			echo $e->getMessage();
+			odbc_close_all();
 		}
 		finally{
 			return $result;
