@@ -2,18 +2,34 @@
 
 class DataSource {
     
-	private $conexion;
+	private $dsn;
+	private $user;
+	private $pass;
 	
 	/**
 	 * Metodo contructor para iniciar nuestra conexion con la base de datos.
 	 **/
 	public function __construct(){
-		try{
-            $this->conexion = new PDO("pgsql:host=localhost;port=5432;dbname=SUGPAdb;user=postgres;password=root");
-		}catch(PDOException $e){
-			echo $e->getMessage(); }
+            $this->dsn = "bdsistemaclub";
+            $this->user= "";
+            $this->pass= "";
 	}
 	
+	public function ejecutarQuery($sql){
+		$result = null;
+		try{
+			$conn=odbc_connect($this->dsn,'','');
+			if (!$conn) throw new Exception("error al conectarse al origen de datos");
+			$result=odbc_exec($conn, $sql);
+		}
+		catch(Exception $e){
+			echo $e->getMessage();
+		}
+		finally{
+			return $result;
+		}
+	}
+
 	/**
 	 * Metodo que nos permitira traer un registro de nuestra base de datos.
 	 * Usamos PDO en PHP.
