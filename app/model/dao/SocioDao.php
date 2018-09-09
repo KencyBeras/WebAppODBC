@@ -21,13 +21,13 @@ class SocioDao {
             $result = $datasource->ejecutarQuery($sql);
             if($fila = odbc_fetch_array($result)){
                 $user = $fila['user'];
-                $password = $fila['password'];
+                $pass = $fila['pass'];
                 $nombre = $fila['nombre'];
                 $apellido = $fila['apellido'];
                 $direccion = $fila['direccion'];
                 $telefono = $fila['telefono'];
                 $email = $fila['email'];
-                $socio = new Socio($user, $password, $nombre, $apellido,
+                $socio = new Socio($user, $pass, $nombre, $apellido,
                                     $direccion, $telefono, $email);
                 $socio->setIdSocio($fila['idsocio']);
                 $socio->setNumAfiliado($fila['num_afiliado']);

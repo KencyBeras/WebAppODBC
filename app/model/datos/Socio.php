@@ -5,17 +5,17 @@ class Socio implements JsonSerializable {
     private $idsocio;
     private $num_afiliado;
     private $user;
-    private $password;
+    private $pass;
     private $nombre;
     private $apellido;
     private $direccion;
     private $telefono;
     private $email;
     
-    public function __construct($user, $password, $nombre, 
+    public function __construct($user, $pass, $nombre, 
         $apellido, $direccion, $telefono, $email) {
             $this->$user = $user;
-            $this->$password = $password;
+            $this->$pass = $pass;
             $this->$nombre = $nombre;
             $this->$apellido = $apellido;
             $this->$direccion = $direccion;
@@ -38,10 +38,10 @@ class Socio implements JsonSerializable {
     public function setUser($user){
         $this->user = $user;}
 
-    public function getPassword(){
-        return $this->password;}
-    public function setPassword($password){
-        $this->password = $password;}
+    public function getPass(){
+        return $this->pass;}
+    public function setPass($pass){
+        $this->pass = $pass;}
 
     public function getNombre(){
         return $this->nombre;}
