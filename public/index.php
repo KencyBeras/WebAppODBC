@@ -73,7 +73,7 @@ End Page Loading -->
 
   <div id="login-page" class="row">
     <div class="col s12 z-depth-4 card-panel">
-      <form class="login-form" action="index.php" method="post">
+      <form class="login-form" action="../app/index.php?sesion=login" method="post">
         <div class="row">
           <div class="input-field col s12 center">
             <img src="images/logoBig.png" alt="" class="circle responsive-img valign profile-image-login">

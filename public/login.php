@@ -39,7 +39,7 @@
     <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(img/backgroundTenis.jpg);">
   <div class="login-box card">
     <div class="card-body">
-      <form class="form-horizontal form-material" id="loginform" action="index.html">
+      <form class="form-horizontal form-material" id="loginform" action="../app/index.php?sesion=login" method="post">
         <span href="javascript:void(0)" class="text-center db"><i class="fa fa-users fa-2x"></i><br/><h2>Club Social Los Amigos</h2></span>
 
         <div class="form-group m-t-40">
@@ -64,7 +64,7 @@
         </div>
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
-            <p>No tenes una cuenta? <a href="register.html" class="text-primary m-l-5"><b>Registrarse</b></a></p>
+            <p>No tenes una cuenta? <a href="register.php" class="text-primary m-l-5"><b>Registrarse</b></a></p>
           </div>
         </div>
       </form>

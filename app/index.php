@@ -1,8 +1,8 @@
 <?php
 
-require_once '../../sugpa/app/model/datos/Sesion.php';
-require_once '../../sugpa/app/model/dao/SesionDao.php';
-require_once '../../sugpa/app/model/dao/DataSource.php'; 
+//require_once '../../sugpa/app/model/datos/Sesion.php';
+//require_once '../../sugpa/app/model/dao/SesionDao.php';
+require_once 'model/dao/DataSource.php'; 
 
 @session_start();
 
@@ -22,6 +22,11 @@ if( isset($_REQUEST['sesion']) ) {       //CONDICION UNICA PARA MANEJAR EL LOGIN
                 $sesDao->deleteSesionId( $_SESSION['idSesion'] ); }
             session_unset();
             unset($_REQUEST['sesion']);
+        };break;
+        case 'registro': {
+            //Redirige al controlador y realiza la logica necesaria
+            require_once 'controller/RegistroController.php';
+            //Vuelve y redirige a donde sea necesario
         };break;
         default: require_once 'view/404.php';
     }
@@ -57,7 +62,7 @@ if( isset($_SESSION['idSesion']) ) {                              //VERIFICAMOS 
     }
 }
 else {                                              //SI LA SESION NO ESTA DEFINIDA EN EL NAVEGADOR, VUELVE A iniciarSesion.php
-    require_once 'view/iniciarSesion.php';
+    //require_once 'view/iniciarSesion.php';
 } 
 
 
