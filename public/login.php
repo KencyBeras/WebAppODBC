@@ -44,12 +44,12 @@
 
         <div class="form-group m-t-40">
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Usuario">
+            <input name="usuario" class="form-control" type="text" required="" placeholder="Usuario">
           </div>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
-            <input class="form-control" type="password" required="" placeholder="Contraseña">
+            <input name="password" class="form-control" type="password" required="" placeholder="Contraseña">
           </div>
         </div>
         <div class="form-group">
