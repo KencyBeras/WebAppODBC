@@ -128,6 +128,6 @@ if(!isset($_SESSION["datosSesion"])){
 <?php
     }
     else if(strcmp($_SESSION["tipoSesion"], "socio") == 0){
-        header("Location: mainView.php");
+        header("Location: inicioSocio.php");
     }
 ?>

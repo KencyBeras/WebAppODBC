@@ -71,8 +71,12 @@ class Socio implements JsonSerializable {
     
     public function jsonSerialize() {
         return [
-          'idsocio'=>$this->idsocio,  
-          'user' => $this->user  
+          'idsocio'=>$this->idsocio,
+          'num_afiliado'=>$this->num_afiliado,
+          'user' => $this->user,
+          'nombre' => $this->nombre,
+          'apellido' => $this->apellido,
+          'email' => $this->email
         ];
     }
 

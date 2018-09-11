@@ -3,7 +3,8 @@
 @session_start(); 
 
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
-
+$socio = json_decode($_SESSION["datosSesion"]);
+echo "Te tiro el nombre del usuario logueado: " . $socio->nombre;
 ?>
 
 
@@ -367,5 +368,5 @@ if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") 
 
 <?php
     }
-    else header("Location: index.php");
+    else header("Location: ../index.php");
 ?>
