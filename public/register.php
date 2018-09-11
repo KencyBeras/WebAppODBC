@@ -42,24 +42,39 @@
       <form class="form-horizontal form-material" id="loginform" action="../app/index.php?sesion=registro" method="post">
         <span href="javascript:void(0)" class="text-center db"><i class="fa fa-users fa-2x"></i><br/><h2>Club Social Los Amigos</h2></span>
         <h3 class="box-title m-t-40 m-b-0">Registrate ahora</h3><small>Crea tu cuenta y empezá a reservar tus canchas fácil</small>
-        <div class="form-group m-t-20">
+        <div class="form-group m-t-20" style="margin-bottom: 8px;" >
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Usuario">
+            <input class="form-control" type="text" required="" name="user" placeholder="Usuario">
           </div>
         </div>
-        <div class="form-group ">
+        <div class="form-group " style="margin-bottom: 8px;" >
           <div class="col-xs-12">
-            <input class="form-control" type="text" required="" placeholder="Correo electrónico">
+            <input class="form-control" type="password" required="" name="pass" placeholder="Contraseña">
           </div>
         </div>
-        <div class="form-group ">
+        <div class="form-group " style="margin-bottom: 8px;" >
           <div class="col-xs-12">
-            <input class="form-control" type="password" required="" placeholder="Contraseña">
+            <input class="form-control" type="text" required="" name="nombre" placeholder="Nombre">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 8px;" >
+          <div class="col-xs-12">
+            <input class="form-control" type="text" required="" name="apellido" placeholder="Apellido">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 8px;" >
+          <div class="col-xs-12">
+            <input class="form-control" type="text" required="" name="direccion" placeholder="Dirección">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 8px;" >
+          <div class="col-xs-12">
+            <input class="form-control" type="text" required="" name="telefono" placeholder="Teléfono">
           </div>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
-            <input class="form-control" type="password" required="" placeholder="Confirmar contraseña">
+            <input class="form-control" type="text" required="" name="email" placeholder="Correo electrónico">
           </div>
         </div>
         <div class="form-group text-center m-t-20">
