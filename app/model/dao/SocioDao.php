@@ -41,6 +41,35 @@ class SocioDao {
         }
         return $socio;
     }
+
+    public function loginSocio($user, $pass){
+        $datasource = new DataSource();
+        $socio = null;
+        try{
+            $sql = "SELECT * FROM socio WHERE user='" . $user . "' AND pass='" . $pass . "'";
+            $result = $datasource->ejecutarQuery($sql);
+            if($fila = odbc_fetch_array($result)){
+                $user = $fila['user'];
+                $pass = ""; //Por seguridad la envía en blanco
+                $nombre = $fila['nombre'];
+                $apellido = $fila['apellido'];
+                $direccion = $fila['direccion'];
+                $telefono = $fila['telefono'];
+                $email = $fila['email'];
+                $socio = new Socio($user, $pass, $nombre, $apellido,
+                                    $direccion, $telefono, $email);
+                $socio->setIdSocio($fila['idsocio']);
+                $socio->setNumAfiliado($fila['num_afiliado']);
+            }
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        finally{
+            odbc_close_all();
+        }
+        return $socio;
+    }
 }
 
 class ColectivoDao {

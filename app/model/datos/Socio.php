@@ -14,13 +14,13 @@ class Socio implements JsonSerializable {
     
     public function __construct($user, $pass, $nombre, 
         $apellido, $direccion, $telefono, $email) {
-            $this->$user = $user;
-            $this->$pass = $pass;
-            $this->$nombre = $nombre;
-            $this->$apellido = $apellido;
-            $this->$direccion = $direccion;
-            $this->$telefono = $telefono;
-            $this->$email = $email;
+            $this->setUser($user);
+            $this->setPass($pass);
+            $this->setNombre($nombre);
+            $this->setApellido($apellido);
+            $this->setDireccion($direccion);
+            $this->setTelefono($telefono);
+            $this->setEmail($email);
     } 
     
     public function getIdSocio(){

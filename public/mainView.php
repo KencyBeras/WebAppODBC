@@ -1,3 +1,12 @@
+<?php
+
+@session_start(); 
+
+if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="ES">
 
@@ -355,3 +364,8 @@
 </body>
 
 </html>
+
+<?php
+    }
+    else header("Location: index.php");
+?>

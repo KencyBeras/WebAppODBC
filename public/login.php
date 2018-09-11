@@ -1,3 +1,10 @@
+<?php
+
+@session_start(); 
+
+if(!isset($_SESSION["datosSesion"])){
+?>
+
 <!DOCTYPE html>
 <html lang="ES">
 
@@ -44,12 +51,12 @@
 
         <div class="form-group m-t-40">
           <div class="col-xs-12">
-            <input name="usuario" class="form-control" type="text" required="" placeholder="Usuario">
+            <input name="user" class="form-control" type="text" required="" placeholder="Usuario">
           </div>
         </div>
         <div class="form-group">
           <div class="col-xs-12">
-            <input name="password" class="form-control" type="password" required="" placeholder="Contraseña">
+            <input name="pass" class="form-control" type="password" required="" placeholder="Contraseña">
           </div>
         </div>
         <div class="form-group">
@@ -117,3 +124,10 @@
 </body>
 
 </html>
+
+<?php
+    }
+    else if(strcmp($_SESSION["tipoSesion"], "socio") == 0){
+        header("Location: mainView.php");
+    }
+?>
