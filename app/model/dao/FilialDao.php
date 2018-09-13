@@ -47,26 +47,23 @@ class FilialDao {
         $datasource = new DataSource();
         $filial = null;
         try{
-            $sql = "SELECT * FROM filial WHERE idFilial";
+            $sql = "SELECT * FROM filial";
             $result = $datasource->ejecutarQuery($sql);
 
             $filiales = array();
 
         /* obtener array asociativo */
-            while ($fila = odbc_fetch_array($result, MYSQL_ASSOC)) {
-
-            $idFilial = $fila['idfilial'];
+            while($fila = odbc_fetch_array($result)){
+            $idfilial = $fila['idfilial'];
             $localidad = $fila['localidad'];
             $horario_apertura = $fila['horario_apertura'];
             $horario_apertura = substr($horario_apertura, 0, 5);
             $horario_cierre = $fila['horario_cierre'];
             $horario_cierre = substr($horario_cierre, 0, 5);
             $diames_mantenimiento = $fila['diames_mantenimiento'];
-            $filial = new Filial($idFilial, $localidad, $horario_apertura, $horario_cierre, $diames_mantenimiento);
-
-            echo $filial;
-
-            array_push($filiales, json_encode($filial));
+            $filial = new Filial($idfilial, $localidad, $horario_apertura, $horario_cierre, $diames_mantenimiento);
+            
+            array_push($filiales, $filial);
             }
 
             }

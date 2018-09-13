@@ -42,7 +42,7 @@ class SocioDao {
         return $socio;
     }
 
-    public function listSocio(){
+    public function selectSocios(){
         $datasource = new DataSource();
         $listaSocio = array();
         $socio = null;
