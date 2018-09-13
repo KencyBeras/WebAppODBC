@@ -1,6 +1,6 @@
 <?php
 
-@session_start(); 
+@session_start();
 
 if(!isset($_SESSION["datosSesion"])){
 ?>
@@ -75,6 +75,16 @@ if(!isset($_SESSION["datosSesion"])){
           </div>
         </div>
       </form>
+
+      <?php
+      if(isset( $_SESSION["errorLogin"])){
+        echo $_SESSION["errorLogin"];
+        unset ($_SESSION["errorLogin"]);
+      }
+
+
+       ?>
+
       <form class="form-horizontal" id="recoverform" action="index.html">
         <div class="form-group ">
           <div class="col-xs-12">

@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 class DataSource {
-    
+
 	private $dsn;
 	private $user;
 	private $pass;
-	
+
 	/**
 	 * Metodo contructor para iniciar nuestra conexion con la base de datos.
 	 **/
@@ -14,13 +14,15 @@ class DataSource {
             $this->user= "";
             $this->pass= "";
 	}
-	
+
 	public function ejecutarQuery($sql){
 		$result = null;
 		try{
-			$conn=odbc_connect($this->dsn,'','');
+			//$conn=odbc_connect($this->dsn,$this->user,$this->pass);
+      $conn=odbc_connect($this->dsn,'','');
 			if(!$conn) throw new Exception("error al conectarse al origen de datos");
 			$result=odbc_exec($conn, $sql);
+			echo $result;
 			if(!$result) throw new Exception("error al realizar la consulta: " . $sql);
 		}
 		catch(Exception $e){
@@ -49,7 +51,7 @@ class DataSource {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Metodo que nos permitira obtener un entero de las tablas afectadas, 0 indica que no
 	 * paso nada.

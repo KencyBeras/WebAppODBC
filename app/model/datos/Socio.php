@@ -1,7 +1,7 @@
 <?php
-	
+
 class Socio implements JsonSerializable {
-    
+
     private $idsocio;
     private $num_afiliado;
     private $user;
@@ -11,8 +11,8 @@ class Socio implements JsonSerializable {
     private $direccion;
     private $telefono;
     private $email;
-    
-    public function __construct($user, $pass, $nombre, 
+
+    public function __construct($user, $pass, $nombre,
         $apellido, $direccion, $telefono, $email) {
             $this->setUser($user);
             $this->setPass($pass);
@@ -21,8 +21,8 @@ class Socio implements JsonSerializable {
             $this->setDireccion($direccion);
             $this->setTelefono($telefono);
             $this->setEmail($email);
-    } 
-    
+    }
+
     public function getIdSocio(){
         return $this->idsocio;}
     public function setIdSocio($idsocio){
@@ -68,7 +68,7 @@ class Socio implements JsonSerializable {
     public function setEmail($email){
         $this->email = $email;}
 
-    
+
     public function jsonSerialize() {
         return [
           'idsocio'=>$this->idsocio,

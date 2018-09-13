@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema bdsistemaclub
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `bdsistemaclub` ;
 
 -- -----------------------------------------------------
 -- Schema bdsistemaclub
@@ -17,6 +18,8 @@ USE `bdsistemaclub` ;
 -- -----------------------------------------------------
 -- Table `bdsistemaclub`.`socio`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaclub`.`socio` ;
+
 CREATE TABLE IF NOT EXISTS `bdsistemaclub`.`socio` (
   `idsocio` INT NOT NULL AUTO_INCREMENT,
   `num_afiliado` INT NOT NULL,
@@ -36,6 +39,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bdsistemaclub`.`filial`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaclub`.`filial` ;
+
 CREATE TABLE IF NOT EXISTS `bdsistemaclub`.`filial` (
   `idfilial` INT NOT NULL AUTO_INCREMENT,
   `localidad` VARCHAR(60) NOT NULL,
@@ -49,9 +54,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bdsistemaclub`.`cancha`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaclub`.`cancha` ;
+
 CREATE TABLE IF NOT EXISTS `bdsistemaclub`.`cancha` (
   `idcancha` INT NOT NULL AUTO_INCREMENT,
   `idfilial` INT NOT NULL,
+  `numcancha` INT NULL,
   `deporte` VARCHAR(45) NOT NULL,
   `categoria` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idcancha`, `idfilial`),
@@ -67,6 +75,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `bdsistemaclub`.`turno`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaclub`.`turno` ;
+
 CREATE TABLE IF NOT EXISTS `bdsistemaclub`.`turno` (
   `idturno` INT NOT NULL AUTO_INCREMENT,
   `idfilial` INT NOT NULL,

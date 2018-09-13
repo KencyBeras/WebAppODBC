@@ -4,7 +4,7 @@
 
 require_once 'app/model/dao/DataSource.php';
 
-if( !isset($_SESSION['idSesion']) ) {         //Si la sesión no está definida se redirige al login
+if( !isset($_SESSION['datosSesion']) ) {         //Si la sesión no está definida se redirige al login
     header("Location: public/login.php");
 }
 else {                                  //Si ya está definida se redirige a la pantalla principal según corresponda

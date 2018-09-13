@@ -2,7 +2,9 @@
 
 require_once 'model/datos/Socio.php';
 require_once 'model/dao/SocioDao.php';
-require_once 'model/dao/DataSource.php'; 
+require_once 'model/datos/Filial.php';
+require_once 'model/dao/FilialDao.php';
+require_once 'model/dao/DataSource.php';
 
 //Declaraciones
 $socioDao = new SocioDao();
@@ -19,6 +21,13 @@ $socio = $socioDao->loginSocio($user, $pass);
 if(isset($socio)){ //Si coincide un socio con el solicitado en el login
 	$_SESSION["datosSesion"] = json_encode($socio); //Lo agrego como una variable de sesión para utilizar en el resto de la misma
 	$_SESSION["tipoSesion"] = "socio";
+
+  $filialDao = new FilialDao();
+  $filiales = $filialDao->selectFiliales();
+  $_SESSION["filiales"] = $filiales;
+
+
+
 }
 else $_SESSION["errorLogin"] = "Usuario o contraseña incorrectos";
 header("Location: ../"); //Redirecciono al index.php que maneja las sesiones
