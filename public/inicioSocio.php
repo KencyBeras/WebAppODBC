@@ -1,11 +1,16 @@
 <?php
 
+require_once '../app/model/dao/DataSource.php';
+require_once '../app/model/datos/Filial.php';
+require_once '../app/model/dao/FilialDao.php';
+
 @session_start();
 
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
 $socio = json_decode($_SESSION["datosSesion"]);
 
-$filiales = ($_SESSION["filiales"]);
+$filialDao = new FilialDao();
+$filiales = $filialDao->selectFiliales();
 
 ?>
 
@@ -110,23 +115,23 @@ $filiales = ($_SESSION["filiales"]);
                         <!-- Row -->
                         <div class="row">
                           <!-- column -->
+                        <?php
+                          foreach ($filiales as $filial){
+                            $localidad = explode(' ', $filial->getLocalidad())[0]; //Primera palabra de la localidad
+                        ?>
                           <div class="col-lg-3 col-md-6">
                               <!-- Card -->
                               <div class="card">
-                                  <img class="card-img-top img-responsive" src="img/banfieldFutbol.jpg" alt="Card image cap">
+                                  <img class="card-img-top img-responsive" src='img/<?php echo $localidad . 'Futbol.jpg';?>'
+                                  alt="Card image cap">
                                   <div class="card-body">
-                                      <h4 class="card-title"><?php ?></h4>
-                                      <p class="card-text"><b>Horarios: </b><?php  ?> a <?php ?>
+                                      <h4 class="card-title"><?php echo $filial->getLocalidad();?></h4>
+                                      <p class="card-text"><b>Horarios: </b>
+                                        <?php echo $filial->getHorario_apertura(); ?> 
+                                        a <?php echo $filial->getHorario_cierre(); ?>
                                         <ul>
                                           <li>
-                                            <?php
-                                            echo $filiales[0]->localidad;
-
-                                            foreach ($filiales as $filial) {
-                                                echo $filial->localidad;
-                                            }
-
-                                             ?>
+                                            <?php echo "asd";  ?>
                                           </li>
                                           <li>
                                             Tenis
@@ -138,6 +143,9 @@ $filiales = ($_SESSION["filiales"]);
                               </div>
                               <!-- Card -->
                           </div>
+                          <?php
+                            }
+                          ?>
                           <!-- column -->
                           <!-- column -->
                           <div class="col-lg-3 col-md-6">
