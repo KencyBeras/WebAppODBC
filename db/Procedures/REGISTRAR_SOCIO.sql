@@ -15,6 +15,7 @@ BEGIN
 	-- Declaraciones
 	DECLARE error_registro CONDITION FOR SQLSTATE '22012';
 	DECLARE s_numafiliado INT DEFAULT 0; -- NUM_AFILIADO QUE SE OTORGA AL NUEVO USUARIO
+    SET respuesta = 0;
     -- Validaciones
     SELECT IFNULL(MAX(num_afiliado)+1, 1) INTO s_numafiliado from socio;
     IF(s_numafiliado>=1) THEN

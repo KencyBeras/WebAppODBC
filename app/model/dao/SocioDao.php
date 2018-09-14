@@ -101,6 +101,30 @@ class SocioDao {
         }
         return $socio;
     }
+
+    public function registroSocio($user, $pass, $nombre, $apellido, $direccion, $telefono, $email){
+        $datasource = new DataSource();
+        $resultado = null;
+        try{
+            $sql = "CALL REGISTRAR_SOCIO('".$user."', '".$pass."', '".$nombre."', '".$apellido."', '".$direccion."', '"
+            .$telefono."', '".$email."', @resultado)";
+            $respuesta = $datasource->ejecutarQuery($sql);
+            if($respuesta!=null){
+                //Nos aseguramos que en la BD la consulta haya impactado correctamente
+                $respuesta = $datasource->ejecutarQuery("SELECT @resultado AS ok");
+                if($fila = odbc_fetch_array($respuesta)) $resultado = $fila['ok'];
+            }
+            
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        finally{
+            odbc_close_all();
+        }
+        return $resultado;
+    }
+
 }
 
 class ColectivoDao {

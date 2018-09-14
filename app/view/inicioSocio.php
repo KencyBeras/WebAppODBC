@@ -1,8 +1,8 @@
 <?php
 
-require_once '../app/model/dao/DataSource.php';
-require_once '../app/model/datos/Filial.php';
-require_once '../app/model/datos/Cancha.php';
+require_once '../model/dao/DataSource.php';
+require_once '../model/datos/Filial.php';
+require_once '../model/datos/Cancha.php';
 
 
 @session_start();
@@ -26,14 +26,14 @@ $filiales = $_SESSION['filiales'];
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
     <title>Club Social Los Amigos</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/green-dark.css" id="theme" rel="stylesheet">
+    <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -112,8 +112,8 @@ $filiales = $_SESSION['filiales'];
                           <div class="col-lg-3 col-md-6">
                               <!-- Card -->
                               <div class="card">
-                                  <img class="card-img-top img-responsive" src='img/<?php echo $localidad . 'Futbol.jpg';?>'
-                                  alt="Card image cap">
+                                  <img class="card-img-top img-responsive" 
+                                  src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="Card image cap">
                                   <div class="card-body">
                                       <h4 class="card-title"><?php echo $filial->getLocalidad();?></h4>
                                       <p class="card-text"><b>Horarios: </b>
@@ -185,30 +185,30 @@ $filiales = $_SESSION['filiales'];
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="../../public/js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../../public/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../../public/js/sidebarmenu.js"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="../../public/js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 
 </html>
 
 <?php
     }
-    else header("Location: ../index.php");
+    else header("Location: ../../index.php");
 ?>

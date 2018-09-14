@@ -17,11 +17,13 @@ if( isset($_REQUEST['sesion']) ) {       //CONDICION UNICA PARA MANEJAR EL LOGIN
             unset($_REQUEST['sesion']);
         };break;
         case 'logout': {
-            $sesDao = new SesionDao();
-            if( isset($_SESSION['idSesion']) ) {
-                $sesDao->deleteSesionId( $_SESSION['idSesion'] ); }
+            if( isset($_SESSION["datosSesion"]) ) {
+                unset($_SESSION["datosSesion"]);
+                unset($_SESSION["tipoSesion"]);
+            }
             session_unset();
             unset($_REQUEST['sesion']);
+            header("Location: ../");
         };break;
         case 'registro': {
             //Redirige al controlador y realiza la logica necesaria

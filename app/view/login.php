@@ -16,14 +16,14 @@ if(!isset($_SESSION["datosSesion"])){
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
     <title>Club Los amigos</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/default-dark.css" id="theme" rel="stylesheet">
+    <link href="../../public/css/colors/default-dark.css" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -39,7 +39,23 @@ if(!isset($_SESSION["datosSesion"])){
 
 <body>
 
+<?php
+  if(isset($_SESSION["errorLogin"])){
+    echo '<div class="alert alert-danger" role="alert">';
+    echo $_SESSION["errorLogin"];
+    echo '</div>';
+    unset($_SESSION["errorLogin"]);
+  }
 
+  if(isset($_SESSION["mensajeRegistro"])){
+    if($_SESSION["mensajeRegistro"][0] == 1){
+      echo '<div class="alert alert-success" role="alert">';
+      echo $_SESSION["mensajeRegistro"][1];
+      echo '</div>';
+    }
+    unset($_SESSION["mensajeRegistro"]);
+  }
+?>
 
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -51,10 +67,10 @@ if(!isset($_SESSION["datosSesion"])){
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(img/backgroundTenis.jpg);">
+    <section id="wrapper" class="login-register login-sidebar"  style="background-image:url(../../public/img/backgroundTenis.jpg);">
   <div class="login-box card">
     <div class="card-body">
-      <form class="form-horizontal form-material" id="loginform" action="../app/index.php?sesion=login" method="post">
+      <form class="form-horizontal form-material" id="loginform" action="../index.php?sesion=login" method="post">
         <span href="javascript:void(0)" class="text-center db"><i class="fa fa-users fa-2x"></i><br/><h2>Club Social Los Amigos</h2></span>
 
         <div class="form-group m-t-40">
@@ -84,17 +100,6 @@ if(!isset($_SESSION["datosSesion"])){
         </div>
       </form>
       <br>
-      <?php
-      if(isset( $_SESSION["errorLogin"])){
-
-        echo '<div class="alert alert-danger" role="alert">';
-        echo $_SESSION["errorLogin"];
-        echo '</div>';
-        unset ($_SESSION["errorLogin"]);
-      }
-
-
-       ?>
 
       <form class="form-horizontal" id="recoverform" action="index.html">
         <div class="form-group ">
@@ -123,25 +128,25 @@ if(!isset($_SESSION["datosSesion"])){
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="../../public/js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../../public/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../../public/js/sidebarmenu.js"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="../../public/js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 
 </html>
@@ -149,6 +154,6 @@ if(!isset($_SESSION["datosSesion"])){
 <?php
     }
     else if(strcmp($_SESSION["tipoSesion"], "socio") == 0){
-        header("Location: inicioSocio.php");
+        header("Location: ../../index.php");
     }
 ?>

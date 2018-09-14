@@ -1,11 +1,11 @@
 <?php
 
-require_once '../app/model/dao/DataSource.php';
-require_once '../app/model/datos/Cancha.php';
-require_once '../app/model/dao/CanchaDao.php';
+require_once '../model/dao/DataSource.php';
+require_once '../model/datos/Cancha.php';
+require_once '../model/dao/CanchaDao.php';
 
-require_once '../app/model/datos/Turno.php';
-require_once '../app/model/dao/TurnoDao.php';
+require_once '../model/datos/Turno.php';
+require_once '../model/dao/TurnoDao.php';
 
 
 @session_start();
@@ -35,28 +35,28 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
     <title>Reservar cancha en <?php echo $sede ?></title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
     <!-- Page plugins css -->
-    <link href="../assets/plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
-    <link href="../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
-    <link href="../assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
-    <link href="../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <link href="../../assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="../../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="../../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+    <link href="../../assets/plugins/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/green-dark.css" id="theme" rel="stylesheet">
+    <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
     <!-- Date picker plugins css -->
-    <link href="../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <!-- Daterange picker plugins css -->
-    <link href="../assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-    <link href="../assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="../../assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -117,6 +117,7 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
                               <div class="row">
                                   <div class="col-sm-4">
                                     <select id="deporte" class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
+                                        <option value="" selected disabled>Seleccionar</option>
                                       <?php foreach ($_SESSION[$idFilial . "_deportes"] as $deporte){   ?>
                                         <option data-id="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
                                       <?php } ?>
@@ -231,39 +232,39 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="../../public/js/jquery.slimscroll.js"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="../../public/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="../../public/js/sidebarmenu.js"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="../../public/js/custom.min.js"></script>
     <!-- Clock Plugin JavaScript -->
     <!-- ============================================================== -->
     <!-- Plugins for this page -->
     <!-- ============================================================== -->
     <!-- Plugin JavaScript -->
-    <script src="../assets/plugins/moment/moment.js"></script>
-    <script src="../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <script src="../../assets/plugins/moment/moment.js"></script>
+    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
     <!-- Clock Plugin JavaScript -->
-    <script src="../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
     <!-- Color Picker Plugin JavaScript -->
-    <script src="../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-    <script src="../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-    <script src="../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
     <!-- Date Picker Plugin JavaScript -->
-    <script src="../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <!-- Date range Plugin JavaScript -->
-    <script src="../assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-    <script src="../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="../../assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script>
     // MAterial Date picker
 
@@ -356,12 +357,12 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/switchery/dist/switchery.min.js"></script>
-    <script src="../assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
-    <script src="../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+    <script src="../../assets/plugins/switchery/dist/switchery.min.js"></script>
+    <script src="../../assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../assets/plugins/multiselect/js/jquery.multi-select.js"></script>
     <script>
     jQuery(document).ready(function() {
         // Switchery
@@ -475,7 +476,7 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
     <script>
     var query = 0;
@@ -526,5 +527,5 @@ if(query == 1){
 
 <?php
     }
-    else header("Location: ../index.php");
+    else header("Location: ../../index.php");
 ?>
