@@ -4,6 +4,9 @@ require_once '../app/model/dao/DataSource.php';
 require_once '../app/model/datos/Cancha.php';
 require_once '../app/model/dao/CanchaDao.php';
 
+require_once '../app/model/datos/Turno.php';
+require_once '../app/model/dao/TurnoDao.php';
+
 
 @session_start();
 
@@ -14,9 +17,9 @@ $idFilial = $_GET["id"];
 $sede = $_GET["sede"];
 
 
-$canchaDao = new CanchaDao();
-$canchas = $canchaDao->selectCanchasByFilial($idFilial);
-$deportes = $canchaDao->selectDeportes($idFilial);
+$turnoDao = new TurnoDao();
+$turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
+
 
 
  ?>
@@ -113,9 +116,9 @@ $deportes = $canchaDao->selectDeportes($idFilial);
                               <h4 class="card-title">Canchas de <?php echo $sede ?></h4>
                               <div class="row">
                                   <div class="col-sm-4">
-                                    <select class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
-                                      <?php foreach ($deportes as $deporte){   ?>
-                                        <option data-tokens="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
+                                    <select id="deporte" class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
+                                      <?php foreach ($_SESSION[$idFilial . "_deportes"] as $deporte){   ?>
+                                        <option data-id="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
                                       <?php } ?>
                                     </select>
                                   </div>
@@ -130,7 +133,7 @@ $deportes = $canchaDao->selectDeportes($idFilial);
                               <div class="row">
                                   <div class="col-sm-4">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
+                                            <input name="fecha" type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
                                             <span class="input-group-addon"><i class="icon-calender"></i></span>
 
                                           </div>
@@ -138,6 +141,16 @@ $deportes = $canchaDao->selectDeportes($idFilial);
 
                                   </div>
                                   <div class="col-sm-4">
+
+                                        <?php
+                                          foreach ($turnos as $turno) {
+                                            echo $turno->getIdTurno();
+                                            echo ' ';
+                                            echo $turno->getFechaHora();
+                                            echo '<br>';
+                                          }
+                                         ?>
+
                                         <button id="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info">Consultar</button>
                                   </div>
                               </div>
@@ -253,6 +266,8 @@ $deportes = $canchaDao->selectDeportes($idFilial);
     <script src="../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script>
     // MAterial Date picker
+
+
     $('#mdate').bootstrapMaterialDatePicker({
         weekStart: 0,
         time: false
@@ -318,7 +333,7 @@ $deportes = $canchaDao->selectDeportes($idFilial);
     });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
-        format: 'MM/DD/YYYY h:mm A',
+        format: 'DD/MM/YYYY h:mm A',
         timePickerIncrement: 30,
         timePicker12Hour: true,
         timePickerSeconds: false,
@@ -327,7 +342,7 @@ $deportes = $canchaDao->selectDeportes($idFilial);
         cancelClass: 'btn-inverse'
     });
     $('.input-limit-datepicker').daterangepicker({
-        format: 'MM/DD/YYYY',
+        format: 'DD/MM/YYYY',
         minDate: '06/01/2015',
         maxDate: '06/30/2015',
         buttonClasses: ['btn', 'btn-sm'],
@@ -465,11 +480,20 @@ $deportes = $canchaDao->selectDeportes($idFilial);
     <script>
     var query = 0;
     $("#consultarHorarios").click(function (e) {
+
         query ++;
 
+        var fecha = document.getElementById("datepicker-autoclose").value;
+        var deporte = document.getElementById("deporte").value;
+
+        if(query == 2){
+          $("#div1").remove();
+          query = 1;
+        }
+
 if(query == 1){
-  $("#horarios").append('<div class="card"> <div class="card-body"><h4 class="card-title">Horarios disponibles</h4>' +
-           '<div class="row"><div class="col-sm-6">' +
+  $("#horarios").append('<div id="div1" class="card"> <div class="card-body"><h4 class="card-title">Horarios disponibles el '+ fecha + " para canchas de " + deporte +'</h4>' +
+           '<div class="row"><div class="col-sm-10">' +
            '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">17:00</button> ' +
            '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">18:00</button> ' +
            '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">19:00</button> ' +
@@ -480,7 +504,13 @@ if(query == 1){
            '</div></div></div></div>'
   );
 }
+
+
+
+
         });
+
+
 
 
     </script>

@@ -2,20 +2,15 @@
 
 require_once '../app/model/dao/DataSource.php';
 require_once '../app/model/datos/Filial.php';
-require_once '../app/model/dao/FilialDao.php';
 require_once '../app/model/datos/Cancha.php';
-require_once '../app/model/dao/CanchaDao.php';
+
 
 @session_start();
 
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
 $socio = json_decode($_SESSION["datosSesion"]);
 
-$filialDao = new FilialDao();
-$filiales = $filialDao->selectFiliales();
-
-$canchaDao = new CanchaDao();
-
+$filiales = $_SESSION['filiales'];
 
 ?>
 
@@ -124,23 +119,31 @@ $canchaDao = new CanchaDao();
                                       <p class="card-text"><b>Horarios: </b>
                                         <?php echo $filial->getHorario_apertura(); ?>
                                         a <?php echo $filial->getHorario_cierre(); ?>
-                                        <ul>
+
+                                      </p>
+
+                                      <div class="row text-center justify-content-md-center">
+
 
                                           <?php
-                                            $deportes = $canchaDao->selectDeportes($idFilial);
-                                            foreach ($deportes as $deporte) {
+                                            foreach ($_SESSION[$filial->getIdFilial() . "_deportes"] as $deporte) {
                                             ?>
+                                          <div class="col-4"><i class="icon-check"></i> <font class="font-medium">  <?php echo $deporte; ?></font></div>
 
-
-                                          <li>
-                                              <?php echo $deporte; ?>
-                                          </li>
 
                                           <?php } ?>
+                                      </div>
 
-                                        </ul>
-                                      </p>
+
+                                      <br>
+
+
+
+
+
                                       <a href="reservar.php?id=<?php echo $idFilial;?>&sede=<?php echo $localidad ?>" class="btn btn-primary">Reservar</a>
+
+
                                   </div>
                               </div>
                               <!-- Card -->
