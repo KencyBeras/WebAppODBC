@@ -1,3 +1,26 @@
+<?php
+
+require_once '../app/model/dao/DataSource.php';
+require_once '../app/model/datos/Cancha.php';
+require_once '../app/model/dao/CanchaDao.php';
+
+
+@session_start();
+
+if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
+$socio = json_decode($_SESSION["datosSesion"]);
+
+$idFilial = $_GET["id"];
+$sede = $_GET["sede"];
+
+
+$canchaDao = new CanchaDao();
+$canchas = $canchaDao->selectCanchasByFilial($idFilial);
+$deportes = $canchaDao->selectDeportes($idFilial);
+
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="ES">
 
@@ -10,7 +33,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon.png">
-    <title>Nombre de sede</title>
+    <title>Reservar cancha en <?php echo $sede ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
@@ -51,114 +74,11 @@
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
     <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="mainView.html">
-                        <!-- Logo icon -->
-                        <b>
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            <!-- Dark Logo icon -->
-                            <img src="img/favicon.png" width="45" height="40" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        <span>
 
-                         <!-- Light Logo text -->
-                        C S L A</a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav mr-auto mt-md-0">
+      <?php
+          require('header.php');
+       ?>
 
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="user-img"> <span class="round">JP</span> <span class="profile-status away pull-right"></span> </div></a>
-                            <div class="dropdown-menu dropdown-menu-right scale-up">
-                                <ul class="dropdown-user">
-                                    <li>
-                                        <div class="dw-user-box">
-                                            <div class="u-text">
-                                                <h4>Juan Pablo Federico</h4>
-                                        </div>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> Perfil</a></li>
-                                    <li><a href="#"><i class="ti-calendar"></i> Mis reservas</a></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Configuración</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-map-marker"></i><span class="hide-menu">Sedes </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="viewLanus.php">Lanús</a></li>
-                                <li><a href="viewLomas.php">Lomas de Zamora</a></li>
-                                <li><a href="viewBanfield.php">Banfield</a></li>
-                                <li><a href="viewTurdera.php">Turdera</a></li>
-                                <li><a href="viewTemperley.php">Temperley</a></li>
-                                <li><a href="viewAdrogue.php">Adrogué</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-calendar"></i><span class="hide-menu">Mis reservas</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="reservar.php">Realizar reserva</a></li>
-                                <li><a href="misReservas.php">Ver mis reservas</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-email"></i><span class="hide-menu">Contacto</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="contacto.php">Contacto</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-        </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
@@ -172,11 +92,11 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Nombre de sede</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede ?></h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="../">Inicio</a></li>
                             <li class="breadcrumb-item">Reservar cancha</li>
-                            <li class="breadcrumb-item active">Nombre de sede</li>
+                            <li class="breadcrumb-item active"><?php echo $sede ?></li>
                         </ol>
                     </div>
                 </div>
@@ -190,15 +110,16 @@
                     <div class="col-12">
                       <div class="card">
                           <div class="card-body">
-                              <h4 class="card-title">Canchas</h4>
+                              <h4 class="card-title">Canchas de <?php echo $sede ?></h4>
                               <div class="row">
                                   <div class="col-sm-4">
                                     <select class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
-                                        <option data-tokens="Futbol">Futbol</option>
-                                        <option data-tokens="Tenis">Tenis</option>
+                                      <?php foreach ($deportes as $deporte){   ?>
+                                        <option data-tokens="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
+                                      <?php } ?>
                                     </select>
-
                                   </div>
+
                               </div>
                           </div>
                       </div>
@@ -243,7 +164,7 @@
                                   <div class="modal-body">
                                     <ul>
                                       <li>
-                                        <i class="fa fa-map-marker"></i> <b> Sede:</b> nombreSede
+                                        <i class="fa fa-map-marker"></i> <b> Sede:</b> <?php echo $sede ?>
                                       </li>
                                       <li>
                                         <i class="fa fa-calendar"></i><b> Dia y Hora:</b> fechaReserva / horaReserva
@@ -570,3 +491,10 @@ if(query == 1){
 </body>
 
 </html>
+
+
+
+<?php
+    }
+    else header("Location: ../index.php");
+?>

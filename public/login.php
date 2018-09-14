@@ -30,9 +30,17 @@ if(!isset($_SESSION["datosSesion"])){
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<script type="text/javascript">
+    document.getElementById("userInput").focus();
+</script>
+
 </head>
 
 <body>
+
+
+
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -51,7 +59,7 @@ if(!isset($_SESSION["datosSesion"])){
 
         <div class="form-group m-t-40">
           <div class="col-xs-12">
-            <input name="user" class="form-control" type="text" required="" placeholder="Usuario">
+            <input id="userInput" name="user" class="form-control" type="text" required="" placeholder="Usuario">
           </div>
         </div>
         <div class="form-group">
@@ -75,10 +83,13 @@ if(!isset($_SESSION["datosSesion"])){
           </div>
         </div>
       </form>
-
+      <br>
       <?php
       if(isset( $_SESSION["errorLogin"])){
+
+        echo '<div class="alert alert-danger" role="alert">';
         echo $_SESSION["errorLogin"];
+        echo '</div>';
         unset ($_SESSION["errorLogin"]);
       }
 

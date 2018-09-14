@@ -7,7 +7,7 @@
         <!-- Logo -->
         <!-- ============================================================== -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="mainView.html">
+            <a class="navbar-brand" href="../">
                 <!-- Logo icon -->
                 <b>
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -64,10 +64,10 @@
                             </li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#"><i class="ti-user"></i> Perfil</a></li>
-                            <li><a href="#"><i class="ti-calendar"></i> Mis reservas</a></li>
+                            <li><a href="misreservas.php"><i class="ti-calendar"></i> Mis reservas</a></li>
                             <li><a href="micuenta.php"><i class="ti-settings"></i> Mi cuenta</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Salir</a></li>
+                            <li><a href="logout.php"><i class="fa fa-power-off"></i> Salir</a></li>
                         </ul>
                     </div>
                 </li>
@@ -101,8 +101,8 @@
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-calendar"></i><span class="hide-menu">Mis reservas</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="reservar.html">Realizar reserva</a></li>
-                        <li><a href="misReservas.html">Ver mis reservas</a></li>
+                        <li><a href="../">Realizar reserva</a></li>
+                        <li><a href="misReservas.php">Ver mis reservas</a></li>
                     </ul>
                 </li>
                 <li>

@@ -28,6 +28,10 @@ if( isset($_REQUEST['sesion']) ) {       //CONDICION UNICA PARA MANEJAR EL LOGIN
             require_once 'controller/RegistroController.php';
             //Vuelve y redirige a donde sea necesario
         };break;
+        case 'reserva': {
+            require_once 'controller/ReservarController.php';
+            unset($_REQUEST['sesion']);
+        };break;
         default: require_once 'view/404.php';
     }
 }

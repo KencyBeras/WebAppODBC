@@ -3,6 +3,8 @@
 require_once '../app/model/dao/DataSource.php';
 require_once '../app/model/datos/Filial.php';
 require_once '../app/model/dao/FilialDao.php';
+require_once '../app/model/datos/Cancha.php';
+require_once '../app/model/dao/CanchaDao.php';
 
 @session_start();
 
@@ -11,6 +13,9 @@ $socio = json_decode($_SESSION["datosSesion"]);
 
 $filialDao = new FilialDao();
 $filiales = $filialDao->selectFiliales();
+
+$canchaDao = new CanchaDao();
+
 
 ?>
 
@@ -55,20 +60,9 @@ $filiales = $filialDao->selectFiliales();
     <!-- ============================================================== -->
     <div id="main-wrapper">
 
-
-
-
-
       <?php
           require('header.php');
-
-
-
        ?>
-
-
-
-
 
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
@@ -85,7 +79,7 @@ $filiales = $filialDao->selectFiliales();
                     <div class="col-md-5 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Reservar cancha</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="../">Inicio</a></li>
                             <li class="breadcrumb-item active">Reservar cancha</li>
                         </ol>
                     </div>
@@ -118,6 +112,7 @@ $filiales = $filialDao->selectFiliales();
                         <?php
                           foreach ($filiales as $filial){
                             $localidad = explode(' ', $filial->getLocalidad())[0]; //Primera palabra de la localidad
+                            $idFilial = $filial->getIdFilial();
                         ?>
                           <div class="col-lg-3 col-md-6">
                               <!-- Card -->
@@ -127,18 +122,25 @@ $filiales = $filialDao->selectFiliales();
                                   <div class="card-body">
                                       <h4 class="card-title"><?php echo $filial->getLocalidad();?></h4>
                                       <p class="card-text"><b>Horarios: </b>
-                                        <?php echo $filial->getHorario_apertura(); ?> 
+                                        <?php echo $filial->getHorario_apertura(); ?>
                                         a <?php echo $filial->getHorario_cierre(); ?>
                                         <ul>
+
+                                          <?php
+                                            $deportes = $canchaDao->selectDeportes($idFilial);
+                                            foreach ($deportes as $deporte) {
+                                            ?>
+
+
                                           <li>
-                                            <?php echo "asd";  ?>
+                                              <?php echo $deporte; ?>
                                           </li>
-                                          <li>
-                                            Tenis
-                                          </li>
+
+                                          <?php } ?>
+
                                         </ul>
                                       </p>
-                                      <a href="reservar.html" class="btn btn-primary">Reservar</a>
+                                      <a href="reservar.php?id=<?php echo $idFilial;?>&sede=<?php echo $localidad ?>" class="btn btn-primary">Reservar</a>
                                   </div>
                               </div>
                               <!-- Card -->
@@ -147,95 +149,10 @@ $filiales = $filialDao->selectFiliales();
                             }
                           ?>
                           <!-- column -->
-                          <!-- column -->
-                          <div class="col-lg-3 col-md-6">
-                              <!-- Card -->
-                              <div class="card">
-                                  <img class="card-img-top img-responsive" src="img/lomasFutbol.jpg" alt="Card image cap">
-                                  <div class="card-body">
-                                      <h4 class="card-title"><?php ?></h4>
-                                      <p class="card-text">Dorrego 546
-                                        <ul>
-                                          <li>
-                                            Futbol
-                                          </li>
-                                          <li>
-                                            Tenis
-                                          </li>
-                                        </ul>
-                                      </p>
-                                      </p>
-                                      <a href="reservar.html" class="btn btn-primary">Reservar</a>
-                                  </div>
-                              </div>
-                              <!-- Card -->
-                          </div>
-                          <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-responsive" src="img/temperleyFutbol.jpg" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Temperley</h4>
-                                        <p class="card-text">Meeks 322
-                                          <ul>
-                                            <li>
-                                              Futbol
-                                            </li>
-                                            <br>
-                                          </ul>
-                                        </p>
-                                        <a href="reservar.html" class="btn btn-primary">Reservar</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6 img-responsive">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-responsive" src="img/adrogueFutbol.jpg" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Adrogue</h4>
-                                        <p class="card-text">Alem 1040
-                                          <ul>
-                                            <li>
-                                              Futbol
-                                            </li>
-                                            <li>
-                                              Tenis
-                                            </li>
-                                          </ul>
-                                        </p>
-                                        <a href="reservar.html" class="btn btn-primary">Reservar</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
-                            <!-- column -->
-                            <div class="col-lg-3 col-md-6 img-responsive">
-                                <!-- Card -->
-                                <div class="card">
-                                    <img class="card-img-top img-responsive" src="img/lanusFutbol.jpg" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Lanus</h4>
-                                        <p class="card-text">9 de Julio 56
-                                          <ul>
-                                            <li>
-                                              Futbol
-                                            </li>
-                                            <br>
-                                          </ul>
-                                        </p>
-                                        <a href="reservar.html" class="btn btn-primary">Reservar</a>
-                                    </div>
-                                </div>
-                                <!-- Card -->
-                            </div>
-                            <!-- column -->
+
+
+
+
                         </div>
                         <!-- Row -->
                     </div>
