@@ -27,7 +27,7 @@ if($resultado==1){
 	array_push($_SESSION["mensajeRegistro"], 1, "Usuario registrado correctamente");
 }
 else{
-	array_push($_SESSION["mensajeRegistro"], 0, "Error al registrar el usuario: verifique los datos ingresados");
+	array_push($_SESSION["mensajeRegistro"], 0, "Registro fallido: datos inválidos");
 }
 
 header('Location: ../');

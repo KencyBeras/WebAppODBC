@@ -38,25 +38,6 @@ if(!isset($_SESSION["datosSesion"])){
 </head>
 
 <body>
-
-<?php
-  if(isset($_SESSION["errorLogin"])){
-    echo '<div class="alert alert-danger" role="alert">';
-    echo $_SESSION["errorLogin"];
-    echo '</div>';
-    unset($_SESSION["errorLogin"]);
-  }
-
-  if(isset($_SESSION["mensajeRegistro"])){
-    if($_SESSION["mensajeRegistro"][0] == 1){
-      echo '<div class="alert alert-success" role="alert">';
-      echo $_SESSION["mensajeRegistro"][1];
-      echo '</div>';
-    }
-    unset($_SESSION["mensajeRegistro"]);
-  }
-?>
-
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -72,7 +53,22 @@ if(!isset($_SESSION["datosSesion"])){
     <div class="card-body">
       <form class="form-horizontal form-material" id="loginform" action="../index.php?sesion=login" method="post">
         <span href="javascript:void(0)" class="text-center db"><i class="fa fa-users fa-2x"></i><br/><h2>Club Social Los Amigos</h2></span>
-
+        <?php
+        if(isset($_SESSION["errorLogin"])){
+          echo '<div class="alert alert-danger" role="alert">';
+          echo $_SESSION["errorLogin"];
+          echo '</div>';
+          unset($_SESSION["errorLogin"]);
+        }
+        if(isset($_SESSION["mensajeRegistro"])){
+          if($_SESSION["mensajeRegistro"][0] == 1){
+          echo '<div class="alert alert-success" role="alert">';
+          echo $_SESSION["mensajeRegistro"][1];
+          echo '</div>';
+        }
+        unset($_SESSION["mensajeRegistro"]);
+        }
+        ?>
         <div class="form-group m-t-40">
           <div class="col-xs-12">
             <input id="userInput" name="user" class="form-control" type="text" required="" placeholder="Usuario">
