@@ -34,12 +34,12 @@ $filiales = $_SESSION['filiales'];
     <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
+    <style type="text/css"> 
+    #panelsedes {
+      word-wrap: normal;
+    }
+    </style>
 </head>
 
 <body class="fix-header card-no-border">
@@ -114,7 +114,7 @@ $filiales = $_SESSION['filiales'];
                               <div class="card">
                                   <img class="card-img-top img-responsive" 
                                   src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="Card image cap">
-                                  <div class="card-body">
+                                  <div id="panelsedes" class="card-body">
                                       <h4 class="card-title"><?php echo $filial->getLocalidad();?></h4>
                                       <p class="card-text"><b>Horarios: </b>
                                         <?php echo $filial->getHorario_apertura(); ?>
