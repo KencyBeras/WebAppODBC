@@ -71,7 +71,7 @@ if(!isset($_SESSION["datosSesion"])){
         ?>
         <div class="form-group m-t-40">
           <div class="col-xs-12">
-            <input id="userInput" name="user" class="form-control" type="text" required="" placeholder="Usuario">
+            <input id="userInput" autofocus name="user" class="form-control" type="text" required="" placeholder="Usuario">
           </div>
         </div>
         <div class="form-group">

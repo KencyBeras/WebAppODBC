@@ -109,12 +109,6 @@ $socio = json_decode($_SESSION["datosSesion"]);
                                               </div>
                                           </div>
                                           <div class="form-group">
-                                              <label class="col-md-12">Password</label>
-                                              <div class="col-md-12">
-                                                  <input type="password" value="password" class="form-control form-control-line">
-                                              </div>
-                                          </div>
-                                          <div class="form-group">
                                               <label class="col-md-12">Direccion</label>
                                               <div class="col-md-12">
                                                   <input type="text" placeholder="<?php echo  $socio->direccion  ?>" class="form-control form-control-line">
@@ -130,9 +124,68 @@ $socio = json_decode($_SESSION["datosSesion"]);
                                           <div class="form-group">
                                               <div class="col-sm-12">
                                                   <button class="btn btn-success">Actualizar</button>
+                                                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cambiarPassword">Cambiar contraseña</button>
                                               </div>
+
                                           </div>
                                       </form>
+
+
+                                      <!-- sample modal content -->
+                                      <div id="cambiarPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                          <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                  <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                      <h4 class="modal-title">Cambiar contraseña</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <div class="form-group">
+
+                                                      <div class="col-lg-12">
+                                                          <div class="input-group">
+                                                              <input id="password-field1" type="password" class="form-control" placeholder="Contraseña actual">
+                                                              <span class="input-group-btn">
+                                                              <button class="btn btn-info" type="button"><span toggle="#password-field1" class="fa fa-fw fa-eye field-icon toggle-password1"></span></button>
+                                                            </span>
+                                                          </div>
+                                                      </div>
+                                                      <br>
+
+                                                      <div class="col-lg-12">
+                                                          <div class="input-group">
+                                                              <input id="password-field2" type="password" class="form-control" placeholder="Contraseña nueva">
+                                                              <span class="input-group-btn">
+                                                              <button class="btn btn-info" type="button"><span toggle="#password-field2" class="fa fa-fw fa-eye field-icon toggle-password2"></span></button>
+                                                            </span>
+                                                          </div>
+                                                      </div>
+                                                      <br>
+                                                      <div class="col-lg-12">
+                                                          <div class="input-group">
+                                                              <input id="password-field3" type="password" class="form-control" placeholder="Confirmar contraseña">
+                                                              <span class="input-group-btn">
+                                                              <button class="btn btn-info" type="button"><span toggle="#password-field3" class="fa fa-fw fa-eye field-icon toggle-password3"></span></button>
+                                                            </span>
+                                                          </div>
+                                                      </div>
+
+
+                                                    </div>
+
+
+
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                      <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancelar</button>
+                                                      <button type="button" class="btn btn-info waves-effect waves-light">Actualizar</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
+
                                   </div>
                               </div>
                           </div>
@@ -140,6 +193,12 @@ $socio = json_decode($_SESSION["datosSesion"]);
                   </div>
                   <!-- Column -->
                 </div>
+
+
+
+
+
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -155,6 +214,10 @@ $socio = json_decode($_SESSION["datosSesion"]);
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
+
+
+
+
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -180,6 +243,43 @@ $socio = json_decode($_SESSION["datosSesion"]);
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+    <script type="text/javascript">
+    $(".toggle-password1").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+      var input = $($(this).attr("toggle"));
+      if (input.attr("type") == "password") {
+      input.attr("type", "text");
+      } else {
+      input.attr("type", "password");
+      }
+      });
+    </script>
+
+    <script type="text/javascript">
+    $(".toggle-password2").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+      var input = $($(this).attr("toggle"));
+      if (input.attr("type") == "password") {
+      input.attr("type", "text");
+      } else {
+      input.attr("type", "password");
+      }
+      });
+    </script>
+
+    <script type="text/javascript">
+    $(".toggle-password3").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+      var input = $($(this).attr("toggle"));
+      if (input.attr("type") == "password") {
+      input.attr("type", "text");
+      } else {
+      input.attr("type", "password");
+      }
+      });
+    </script>
+
 </body>
 
 </html>

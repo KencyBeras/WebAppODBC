@@ -1,13 +1,11 @@
 <?php
 
 require_once '../model/dao/DataSource.php';
-
-require_once '../model/datos/Turno.php';
-require_once '../model/dao/TurnoDao.php';
 require_once '../model/datos/Filial.php';
 require_once '../model/dao/FilialDao.php';
-require_once '../model/datos/Cancha.php';
-require_once '../model/dao/CanchaDao.php';
+
+
+
 
 @session_start();
 
@@ -15,48 +13,15 @@ if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") 
 $socio = json_decode($_SESSION["datosSesion"]);
 
 
+$idFilial = $_GET["id"];
+$sede = $_GET["sede"];
 
+$filialDao = new FilialDao();
+$filial = $filialDao->selectFilial($idFilial);
 
-if(!isset($_SESSION["turnos"])){
-  $turnoDao = new TurnoDao();
-  $_SESSION["turnos"] = $turnoDao->selectTurnosBySocio($socio->idsocio);
-}
-  $turnos = $_SESSION["turnos"];
-
-if(!isset($_SESSION["allFiliales"])){
-  $filialDao = new FilialDao();
-  $_SESSION["allFiliales"] = $filialDao->selectFiliales();
-
-}
-  $filiales = $_SESSION["allFiliales"];
-
-if(!isset($_SESSION["canchasAll"])){
-  $CanchaDao = new CanchaDao();
-  $_SESSION["allCanchas"] = $CanchaDao->selectCanchas();
-
-}
-  $canchas = $_SESSION["allCanchas"];
-
-foreach ($canchas as $cancha) {
-  $idCancha = $cancha->getIdCancha();
-  $numCancha = $cancha->getNumCancha();
-  $deporte = $cancha->getDeporte();
-
-  $numCanchas[$idCancha] = $numCancha;
-  $depCanchas[$idCancha] = $deporte;
-}
-
-foreach ($filiales as $filial) {
-  $idFilial = $filial->getIdFilial();
-  $localidad = $filial->getLocalidad();
-
-  $localidades[$idFilial] = $localidad;
-}
-
-
+$localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
 
  ?>
-
 
 <!DOCTYPE html>
 <html lang="ES">
@@ -70,13 +35,20 @@ foreach ($filiales as $filial) {
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title>Mis reservas</title>
+    <title><?php echo $id ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Page plugins css -->
+    <link href="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/plugins/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <link href="../../assets/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+
     <!-- Custom CSS -->
     <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -98,9 +70,9 @@ foreach ($filiales as $filial) {
     <!-- ============================================================== -->
     <div id="main-wrapper">
 
-        <?php
-            require('header.php');
-         ?>
+      <?php
+          require('header.php');
+       ?>
 
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
@@ -115,10 +87,11 @@ foreach ($filiales as $filial) {
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Reservas</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede ?></h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
-                            <li class="breadcrumb-item active">Mis reservas</li>
+                            <li class="breadcrumb-item"><a href="../">Inicio</a></li>
+                            <li class="breadcrumb-item">Reservar cancha</li>
+                            <li class="breadcrumb-item active"><?php echo $sede ?></li>
                         </ol>
                     </div>
                 </div>
@@ -130,59 +103,48 @@ foreach ($filiales as $filial) {
                 <!-- ============================================================== -->
                 <!-- row -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
+                      <div class="col-lg-12">
+                            <div class="card ">
+                                <div class="card-body">
+                                  <div class="row">
 
-                                <div class="table-responsive">
-                                    <table class="table full-color-table full-info-table hover-table">
-                                      <thead>
-                                          <tr>
-                                              <th>#</th>
-                                              <th>Sede</th>
-                                              <th>Cancha</th>
-                                              <th>Fecha</th>
-                                              <th>Precio</th>
-                                              <th>Estado</th>
-                                              <th class="text-nowrap">Modificar</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
+                                    <div id="carouselExampleSlidesOnly" class="carousel slide col-md-4 col-lg-6" data-ride="carousel">
+                                        <div class="carousel-inner" role="listbox">
+                                            <div class="carousel-item active"> <img class="img-responsive" src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="First slide"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4">
+                                      <small class="text-muted">Direccion </small>
+                                      <h6><?php $filial->getLocalidad(); ?></h6>
 
-                                        <?php foreach($turnos as $turno){
-                                            $count = 1
-                                          ?>
-
-                                          <tr>
-                                              <td><?php echo $count; ?></td>
-                                              <td><?php echo $localidades[$turno->getIdFilial()]; ?></td>
-                                              <td><?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()];   ?></td>
-                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
-                                              <td><?php echo "$" ?></td>
-                                              <td>
-                                                  <div class="label label-table label-success"><?php echo "Estado" ?></div>
-                                              </td>
-                                              <td class="text-nowrap">
-                                                  <a href="#" data-toggle="tooltip" data-original-title="Modificar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                  <a href="#" data-toggle="tooltip" data-original-title="Cancelar"> <i class="fa fa-close text-danger"></i> </a>
-                                              </td>
-                                          </tr>
-
-                                        <?php
-                                          $count++;
-                                            }
-
-                                         ?>
+                                      <small class="text-muted ">Horario</small>
+                                      <h6>De <?php $filial->getHorario_apertura(); ?> a <?php $filial->getHorario_cierre(); ?></h6>
 
 
-                                      </tbody>
-                                  </table>
+
+                                        <div class="map-box">
+                                          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+                                  
+                                        <br/>
+                                          <a href="reservar.php?id=<?php echo $idFilial;?>&sede=<?php echo $localidad ?>" class="btn btn-primary">Reservar</a>
+                                    </div>
+
+                                  </div>
+
+
                                 </div>
+
                             </div>
-                        </div>
-                    </div>
+
+                      </div>
+
                 </div>
-                <!-- row -->
+                <!-- End row -->
+
+
+
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -225,13 +187,29 @@ foreach ($filiales as $filial) {
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="../../public/js/custom.min.js"></script>
+    <!-- Clock Plugin JavaScript -->
+
+
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <script src="../../assets/plugins/switchery/dist/switchery.min.js"></script>
+    <script src="../../assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+
+
+
+
 </body>
 
 </html>
+
+
 
 <?php
     }

@@ -101,7 +101,7 @@
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-calendar"></i><span class="hide-menu">Mis reservas</span></a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="../">Realizar reserva</a></li>
+                        <li><a href="../../">Realizar reserva</a></li>
                         <li><a href="misReservas.php">Ver mis reservas</a></li>
                     </ul>
                 </li>

@@ -42,6 +42,8 @@ class Cancha implements JsonSerializable {
     public function setCategoria($categoria){
         $this->categoria = $categoria;}
 
+        
+
 
     public function jsonSerialize() {
         return [

@@ -41,6 +41,10 @@ class Turno implements JsonSerializable {
     public function setFechahora($fechahora){
         $this->fechahora = $fechahora;}
 
+    public function getFechahoraFormat(){
+        $date = date_create($this->fechahora);
+        $result = date_format($date, 'd/m/Y H:i');
+        return $result;}
 
 
     public function jsonSerialize() {
