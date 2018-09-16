@@ -4,6 +4,9 @@ require_once '../model/dao/DataSource.php';
 require_once '../model/datos/Cancha.php';
 require_once '../model/dao/CanchaDao.php';
 
+
+require_once '../model/datos/Filial.php';
+require_once '../model/dao/FilialDao.php';
 require_once '../model/datos/Turno.php';
 require_once '../model/dao/TurnoDao.php';
 
@@ -16,11 +19,10 @@ $socio = json_decode($_SESSION["datosSesion"]);
 $idFilial = $_GET["id"];
 $sede = $_GET["sede"];
 
-
+$filialDao = new FilialDao();
 $turnoDao = new TurnoDao();
-$turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
 
-
+$filial = $filialDao->selectFilial($idFilial);
 
  ?>
 
@@ -37,6 +39,51 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
     <title>Reservar cancha en <?php echo $sede ?></title>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="../../public/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="../../public/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="../../public/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../../public/js/custom.min.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- Plugin JavaScript -->
+    <script src="../../assets/plugins/moment/moment.js"></script>
+    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="../../assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- ============================================================== -->
+    <script src="../../assets/plugins/switchery/dist/switchery.min.js"></script>
+    <script src="../../assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../assets/plugins/multiselect/js/jquery.multi-select.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
@@ -128,9 +175,53 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
                           </div>
                       </div>
 
+                      <script>
+                      $(function () {
+                        $('#consultarHorarios').on('click', function () {
+                          $.ajax({
+                            url: "../test/ajaxReservar.php?",
+                            data: {
+                              idfilial: <?php echo $idFilial; ?>,
+                              fechaReserva: $("input[name=fecha]").val(),
+                            },
+                            type: 'GET', //{POST, GET}
+                            dataType: "json", //{JSON, XML, TEXT, SCRIPT, HTML}
+                            success: function(data) {
+                                //on success return data here
+                                var horaInicio = '<?php echo $filial->getHorario_apertura(); ?>'.substr(0,2);
+                                var horaCierre = '<?php echo $filial->getHorario_cierre(); ?>'.substr(0,2);
+                                var horaTurno; //Se instancia en cada turno según el valor en el for
+                                for(var i=horaInicio ; i<horaCierre ; i++){
+                                  $("#horas").append( "<button id='hora"+i+"' type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario'>"+i+":00</button>  " );
+                                }
+                                $.each(data, function(i, turno) {
+                                  horaTurno = turno.fechahora.substr(11, 2);
+                                  for(var i=horaInicio ; i<horaCierre ; i++){
+                                    if(i==horaTurno){
+                                      //$("input[id='hora"+i+"']").attr("disabled","disabled");
+                                      $("#hora"+i).addClass("btn btn-info disabled"); //Desactivo el botón
+                                    }
+                                  }
+                                });
+                            },
+                            error : function (xhr, ajaxOptions, thrownError){  
+                              console.log(xhr.status);          
+                              console.log(thrownError);
+                            } 
+                          });
+                        });
+                      });
+
+                      /*$.get( "ajax/test.html", function( data ) {
+                        $( ".result" ).html( data );
+                        alert( "Load was performed." );
+                      });*/
+
+                      </script>
+
                       <div class="card">
                           <div class="card-body">
-                              <h4 class="card-title">Buscar horario disponibles</h4>
+                              <h4 class="card-title">Buscar horarios disponibles</h4>
                               <div class="row">
                                   <div class="col-sm-4">
                                         <div class="input-group">
@@ -143,23 +234,11 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
                                   </div>
                                   <div class="col-sm-4">
 
-                                        <?php
-                                          foreach ($turnos as $turno) {
-                                            echo $turno->getIdTurno();
-                                            echo ' ';
-                                            echo $turno->getFechaHora();
-                                            echo '<br>';
-                                          }
-                                         ?>
-
-                                        <button id="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info">Consultar</button>
+                                        <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info">Consultar</button>
                                   </div>
                               </div>
                           </div>
                       </div>
-
-
-
 
                       <div class="row" >
                           <div class="col-12" id="horarios">
@@ -230,41 +309,6 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     <!-- End Wrapper -->
     <!-- ============================================================== -->
     <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="../../public/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="../../public/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="../../public/js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../../public/js/custom.min.js"></script>
-    <!-- Clock Plugin JavaScript -->
-    <!-- ============================================================== -->
-    <!-- Plugins for this page -->
-    <!-- ============================================================== -->
-    <!-- Plugin JavaScript -->
-    <script src="../../assets/plugins/moment/moment.js"></script>
-    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <!-- Clock Plugin JavaScript -->
-    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
-    <!-- Color Picker Plugin JavaScript -->
-    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-    <script src="../../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-    <!-- Date Picker Plugin JavaScript -->
-    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- Date range Plugin JavaScript -->
-    <script src="../../assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-    <script src="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script>
     // MAterial Date picker
 
@@ -279,11 +323,11 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
         date: false
     });
     $('#date-format').bootstrapMaterialDatePicker({
-        format: 'dddd DD MMMM YYYY - HH:mm'
+        format: 'dddd YYYY MM DD - HH:mm'
     });
 
     $('#min-date').bootstrapMaterialDatePicker({
-        format: 'DD/MM/YYYY HH:mm',
+        format: 'YYYY/MM/DD HH:mm',
         minDate: new Date()
     });
     // Clock pickers
@@ -334,7 +378,7 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
     });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
-        format: 'DD/MM/YYYY h:mm A',
+        format: 'YYYY/MM/DD h:mm A',
         timePickerIncrement: 30,
         timePicker12Hour: true,
         timePickerSeconds: false,
@@ -343,7 +387,7 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
         cancelClass: 'btn-inverse'
     });
     $('.input-limit-datepicker').daterangepicker({
-        format: 'DD/MM/YYYY',
+        format: 'YYYY/MM/DD',
         minDate: '06/01/2015',
         maxDate: '06/30/2015',
         buttonClasses: ['btn', 'btn-sm'],
@@ -354,15 +398,7 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
         }
     });
     </script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
-    <script src="../../assets/plugins/switchery/dist/switchery.min.js"></script>
-    <script src="../../assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
-    <script src="../../assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
-    <script src="../../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="../../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../../assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+
     <script>
     jQuery(document).ready(function() {
         // Switchery
@@ -495,14 +531,9 @@ $turnos = $turnoDao->selectTurnosByFilialAndFecha($idFilial, "2018-10-20");
 if(query == 1){
   $("#horarios").append('<div id="div1" class="card"> <div class="card-body"><h4 class="card-title">Horarios disponibles el '+ fecha + " para canchas de " + deporte +'</h4>' +
            '<div class="row"><div class="col-sm-10">' +
-           '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">17:00</button> ' +
-           '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">18:00</button> ' +
-           '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">19:00</button> ' +
-           '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">20:00</button> ' +
-           '<button type="button" class="btn btn-info disabled">22:00</button> ' +
-           '<button type="button" class="btn btn-info disabled">21:00</button> ' +
-           '<button type="button" class="btn waves-effect waves-light btn-info" data-toggle="modal" data-target="#confirmarHorario">23:00</button> </div>' +
-           '</div></div></div></div>'
+           '<div id=horas>' +
+           '</div>' +
+           '</div></div></div></div></div>'
   );
 }
 

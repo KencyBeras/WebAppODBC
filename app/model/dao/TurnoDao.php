@@ -95,16 +95,16 @@ class TurnoDao {
         return $listaTurno;
     }
 
-    public function selectTurnosByFilialAndFecha($idFilial, $fecha){
+    public function selectTurnosByFilialAndFecha($idFilial, $fecha, $horario_apertura, $horario_cierre){
         $datasource = new DataSource();
         $listaTurno = array();
         $turno = null;
 
-        $fechaBefore = $fecha . " 00:00:00";
-        $fechaAfter = $fecha . " 23:59:59";
-
+        $fechaApertura = $fecha . " " . $horario_apertura;
+        $fechaCierre = $fecha . " " . $horario_cierre;
         try{
-            $sql = "SELECT * FROM turno WHERE idfilial= " . $idFilial . " AND fechahora between '" . $fechaBefore . "' AND '" . $fechaAfter . "'";
+            $sql = "SELECT * FROM turno
+            WHERE idfilial=".$idFilial." AND (fechahora between '" . $fechaApertura . "' AND '" . $fechaCierre . "')";
             $result = $datasource->ejecutarQuery($sql);
             while($fila = odbc_fetch_array($result)){
                 $idTurno = $fila['idturno'];
