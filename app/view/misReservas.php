@@ -15,8 +15,6 @@ if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") 
 $socio = json_decode($_SESSION["datosSesion"]);
 
 
-
-
 if(!isset($_SESSION["turnos"])){
   $turnoDao = new TurnoDao();
   $_SESSION["turnos"] = $turnoDao->selectTurnosBySocio($socio->idsocio);
@@ -41,9 +39,11 @@ foreach ($canchas as $cancha) {
   $idCancha = $cancha->getIdCancha();
   $numCancha = $cancha->getNumCancha();
   $deporte = $cancha->getDeporte();
+  $categoria = $cancha->getCategoria();
 
   $numCanchas[$idCancha] = $numCancha;
   $depCanchas[$idCancha] = $deporte;
+  $catCanchas[$idCancha] = $categoria;
 }
 
 foreach ($filiales as $filial) {
@@ -158,9 +158,9 @@ foreach ($filiales as $filial) {
                                               <td><?php echo $localidades[$turno->getIdFilial()]; ?></td>
                                               <td><?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()];   ?></td>
                                               <td><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
-                                              <td><?php echo "$" ?></td>
+                                              <td><?php echo $catCanchas[$turno->getIdCancha()]; ?></td>
                                               <td>
-                                                  <div class="label label-table label-success"><?php echo "Estado" ?></div>
+                                                  <div class="label label-table label-success"><?php echo $turno->getEstado(); ?></div>
                                               </td>
                                               <td class="text-nowrap">
                                                   <a href="#" data-toggle="tooltip" data-original-title="Modificar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
@@ -183,6 +183,96 @@ foreach ($filiales as $filial) {
                     </div>
                 </div>
                 <!-- row -->
+
+                <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Data Table</h4>
+                                <h6 class="card-subtitle">Data table example</h6>
+                                <div class="table-responsive m-t-40">
+                                    <table id="myTable" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Position</th>
+                                                <th>Office</th>
+                                                <th>Age</th>
+                                                <th>Start date</th>
+                                                <th>Salary</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Tiger Nixon</td>
+                                                <td>System Architect</td>
+                                                <td>Edinburgh</td>
+                                                <td>61</td>
+                                                <td>2011/04/25</td>
+                                                <td>$320,800</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Garrett Winters</td>
+                                                <td>Accountant</td>
+                                                <td>Tokyo</td>
+                                                <td>63</td>
+                                                <td>2011/07/25</td>
+                                                <td>$170,750</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ashton Cox</td>
+                                                <td>Junior Technical Author</td>
+                                                <td>San Francisco</td>
+                                                <td>66</td>
+                                                <td>2009/01/12</td>
+                                                <td>$86,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cedric Kelly</td>
+                                                <td>Senior Javascript Developer</td>
+                                                <td>Edinburgh</td>
+                                                <td>22</td>
+                                                <td>2012/03/29</td>
+                                                <td>$433,060</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Airi Satou</td>
+                                                <td>Accountant</td>
+                                                <td>Tokyo</td>
+                                                <td>33</td>
+                                                <td>2008/11/28</td>
+                                                <td>$162,700</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Brielle Williamson</td>
+                                                <td>Integration Specialist</td>
+                                                <td>New York</td>
+                                                <td>61</td>
+                                                <td>2012/12/02</td>
+                                                <td>$372,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Herrod Chandler</td>
+                                                <td>Sales Assistant</td>
+                                                <td>San Francisco</td>
+                                                <td>59</td>
+                                                <td>2012/08/06</td>
+                                                <td>$137,500</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rhona Davidson</td>
+                                                <td>Integration Specialist</td>
+                                                <td>Tokyo</td>
+                                                <td>55</td>
+                                                <td>2010/10/14</td>
+                                                <td>$327,900</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -225,6 +315,18 @@ foreach ($filiales as $filial) {
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="../../public/js/custom.min.js"></script>
+    <!-- This is data table -->
+    <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <!-- end - This is for export functionality only -->
+    
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->

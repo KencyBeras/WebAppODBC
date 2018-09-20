@@ -7,13 +7,15 @@ class Turno implements JsonSerializable {
     private $idcancha;
     private $idsocio;
     private $fechahora;
+    private $estado;
 
-    public function __construct($idturno, $idfilial, $idcancha, $idsocio, $fechahora) {
+    public function __construct($idturno, $idfilial, $idcancha, $idsocio, $fechahora, $estado) {
             $this->setIdTurno($idturno);
             $this->setIdFilial($idfilial);
             $this->setIdCancha($idcancha);
             $this->setIdSocio($idsocio);
             $this->setFechahora($fechahora);
+            $this->setEstado($estado);
     }
 
     public function getIdTurno(){
@@ -41,6 +43,11 @@ class Turno implements JsonSerializable {
     public function setFechahora($fechahora){
         $this->fechahora = $fechahora;}
 
+    public function getEstado(){
+        return $this->estado;}
+    public function setEstado($estado){
+        $this->estado = $estado;}
+
     public function getFechahoraFormat(){
         $date = date_create($this->fechahora);
         $result = date_format($date, 'd/m/Y H:i');
@@ -54,6 +61,7 @@ class Turno implements JsonSerializable {
           'idcancha' => $this->idcancha,
           'idsocio'=>$this->idsocio,
           'fechahora' => $this->fechahora,
+          'estado' => $this->estado,
         ];
     }
 

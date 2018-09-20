@@ -10,10 +10,11 @@ require_once '../model/dao/TurnoDao.php';
   $turnoDao = new TurnoDao();
   $idfilial = $_GET['idfilial'];
   $fechaReserva = $_GET['fechaReserva'];
+  $turnos =  array();
 
   $filial = $filialDao->selectFilial($idfilial);
+
   $turnos = $turnoDao->selectTurnosByFilialAndFecha($idfilial, $fechaReserva, 
   $filial->getHorario_apertura(), $filial->getHorario_cierre());
-
   echo json_encode($turnos);
 ?>

@@ -26,7 +26,8 @@ class TurnoDao {
                 $idCancha = $fila['idcancha'];
                 $idSocio = $fila['idsocio'];
                 $fechahora = $fila['fechahora'];
-                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora);
+                $estado = $fila['estado'];
+                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora, $estado);
 
                 array_push($listaTurno, $turno);
             }
@@ -54,7 +55,8 @@ class TurnoDao {
                 $idCancha = $fila['idcancha'];
                 $idSocio = $fila['idsocio'];
                 $fechahora = $fila['fechahora'];
-                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora);
+                $estado = $fila['estado'];
+                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora, $estado);
 
                 array_push($listaTurno, $turno);
             }
@@ -81,7 +83,8 @@ class TurnoDao {
                 $idCancha = $fila['idcancha'];
                 $idSocio = $fila['idsocio'];
                 $fechahora = $fila['fechahora'];
-                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora);
+                $estado = $fila['estado'];
+                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora, $estado);
 
                 array_push($listaTurno, $turno);
             }
@@ -112,7 +115,8 @@ class TurnoDao {
                 $idCancha = $fila['idcancha'];
                 $idSocio = $fila['idsocio'];
                 $fechahora = $fila['fechahora'];
-                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora);
+                $estado = $fila['estado'];
+                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora, $estado);
 
                 array_push($listaTurno, $turno);
             }

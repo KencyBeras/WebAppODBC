@@ -23,7 +23,7 @@ class CanchaDao {
           while($fila = odbc_fetch_array($result)){
               $idCancha = $fila['idcancha'];
               $idFilial = $fila['idfilial'];
-              $numcancha = $fila['numcancha'];
+              $numcancha = $fila['num_cancha'];
               $deporte = $fila['deporte'];
               $categoria = $fila['categoria'];
               $cancha = new Cancha($idCancha, $idFilial, $numcancha, $deporte, $categoria);
@@ -71,7 +71,7 @@ class CanchaDao {
             while($fila = odbc_fetch_array($result)){
                 $idCancha = $fila['idcancha'];
                 $idFilial = $fila['idfilial'];
-                $numcancha = $fila['numcancha'];
+                $numcancha = $fila['num_cancha'];
                 $deporte = $fila['deporte'];
                 $categoria = $fila['categoria'];
                 $cancha = new Cancha($idCancha, $idFilial, $numcancha, $deporte, $categoria);

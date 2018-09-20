@@ -179,13 +179,14 @@ $filial = $filialDao->selectFilial($idFilial);
                       $(function () {
                         $('#consultarHorarios').on('click', function () {
                           $.ajax({
+
                             url: "../test/ajaxReservar.php?",
                             data: {
                               idfilial: <?php echo $idFilial; ?>,
                               fechaReserva: $("input[name=fecha]").val(),
                             },
                             type: 'GET', //{POST, GET}
-                            dataType: "json", //{JSON, XML, TEXT, SCRIPT, HTML}
+                            dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
                             success: function(data) {
                                 //on success return data here
                                 var horaInicio = '<?php echo $filial->getHorario_apertura(); ?>'.substr(0,2);
@@ -199,7 +200,8 @@ $filial = $filialDao->selectFilial($idFilial);
                                   for(var i=horaInicio ; i<horaCierre ; i++){
                                     if(i==horaTurno){
                                       //$("input[id='hora"+i+"']").attr("disabled","disabled");
-                                      $("#hora"+i).addClass("btn btn-info disabled"); //Desactivo el botón
+                                      $("#hora"+i).addClass("btn btn-info disabled"); //Cambio estilo del boton
+                                      $("#hora"+i).attr("disabled", true); //Desactivo el boton
                                     }
                                   }
                                 });
@@ -227,13 +229,9 @@ $filial = $filialDao->selectFilial($idFilial);
                                         <div class="input-group">
                                             <input name="fecha" type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
                                             <span class="input-group-addon"><i class="icon-calender"></i></span>
-
-                                          </div>
-
-
+                                        </div>
                                   </div>
                                   <div class="col-sm-4">
-
                                         <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info">Consultar</button>
                                   </div>
                               </div>
