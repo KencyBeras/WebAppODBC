@@ -198,7 +198,7 @@ $filial = $filialDao->selectFilial($idFilial);
 
                                 //Modifique el boton con data-hora y data-cancha. la funcion javascript esta abajo del footer y envia los parametros al modal. No funciona!
                                 for(var i=horaInicio ; i<horaCierre ; i++){
-                                  $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' data-hora="+i+" data-cancha='tipoCancha'>"+i+":00</button>  " );
+                                  $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' id='hora"+i+"' data-cancha='tipoCancha'>"+i+":00</button>   ");
                                 }
                                 $.each(data, function(i, turno) {
                                   horaTurno = turno.fechahora.substr(11, 2);
@@ -325,27 +325,9 @@ $filial = $filialDao->selectFilial($idFilial);
 
     <!-- ESTE SCRIPT ES PARA TRAER LOS ATRIBUTOS DESDE EL BUTTON HACIA EL MODAL -->
                       <script type="text/javascript">
-                         // data-* attributes to scan when populating modal values
-                        var ATTRIBUTES = ['hora', 'cancha'];
-
-                        $('[data-toggle="modal"]').on('click', function (e) {
-                          // convert target (e.g. the button) to jquery object
-                          var $target = $(e.target);
-                          // modal targeted by the button
-                          var modalSelector = $target.data('target');
-                          
-                          // iterate over each possible data-* attribute
-                          ATTRIBUTES.forEach(function (attributeName) {
-                            // retrieve the dom element corresponding to current attribute
-                            var $modalAttribute = $(modalSelector + ' #modal-' + attributeName);
-                            var dataValue = $target.data(attributeName);
-                            
-                            // if the attribute value is empty, $target.data() will return undefined.
-                            // In JS boolean expressions return operands and are not coerced into
-                            // booleans. That way is dataValue is undefined, the left part of the following
-                            // Boolean expression evaluate to false and the empty string will be returned
-                            $modalAttribute.text(dataValue || '');
-                          });
+                        $('#confirmarHorario').on('show.bs.modal', function (event) {
+                          $("#modal-hora").append($("[name='fecha']").val());
+                          $("#modal-hora").append(" - " + $(event.relatedTarget).text());
                         });
                       </script>
 
