@@ -5,8 +5,6 @@ require_once '../model/datos/Filial.php';
 require_once '../model/dao/FilialDao.php';
 
 
-
-
 @session_start();
 
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
@@ -35,7 +33,7 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title><?php echo $id ?></title>
+    <title><?php echo $filial->getLocalidad(); ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Page plugins css -->
@@ -113,20 +111,20 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
                                             <div class="carousel-item active"> <img class="img-responsive" src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="First slide"> </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-lg-4">
-                                      <small class="text-muted">Direccion </small>
-                                      <h6><?php $filial->getLocalidad(); ?></h6>
-
-                                      <small class="text-muted ">Horario</small>
-                                      <h6>De <?php $filial->getHorario_apertura(); ?> a <?php $filial->getHorario_cierre(); ?></h6>
-
+                                    <div class="col-md-6 col-lg-6">
+                                      <medium class="text-muted">Direccion </medium>
+                                      <h6><?php echo $filial->getLocalidad(); ?></h6>
+                                      <br>
+                                      <medium class="text-muted ">Horario</medium>
+                                      <h6>De <?php echo $filial->getHorario_apertura(); ?> a <?php echo $filial->getHorario_cierre(); ?></h6>
+                                      <br>
 
 
                                         <div class="map-box">
-                                          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="280" frameborder="0" style="border:0" allowfullscreen></iframe>
 
-                                  
-                                        <br/>
+                                        <br>
+                                        <br>
                                           <a href="reservar.php?id=<?php echo $idFilial;?>&sede=<?php echo $localidad ?>" class="btn btn-primary">Reservar</a>
                                     </div>
 

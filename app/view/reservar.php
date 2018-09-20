@@ -115,12 +115,12 @@ $filial = $filialDao->selectFilial($idFilial);
 <body class="fix-header card-no-border">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
-    <!-- ==============================================================
+    <!-- ============================================================== --> 
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
     </div>
-     ============================================================== -->
+     <!--============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
     <div id="main-wrapper">
@@ -157,7 +157,7 @@ $filial = $filialDao->selectFilial($idFilial);
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-12 col-12">
                       <div class="card">
                           <div class="card-body">
                               <h4 class="card-title">Canchas de <?php echo $sede ?></h4>
@@ -179,7 +179,6 @@ $filial = $filialDao->selectFilial($idFilial);
                       $(function () {
                         $('#consultarHorarios').on('click', function () {
                           $.ajax({
-
                             url: "../test/ajaxReservar.php?",
                             data: {
                               idfilial: <?php echo $idFilial; ?>,
@@ -187,13 +186,19 @@ $filial = $filialDao->selectFilial($idFilial);
                             },
                             type: 'GET', //{POST, GET}
                             dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
+                            beforeSend: function(){
+                              $('#horarios').css("visibility", "hidden");
+                              $('.ajax-loader').css("visibility", "visible");
+                            },
                             success: function(data) {
                                 //on success return data here
                                 var horaInicio = '<?php echo $filial->getHorario_apertura(); ?>'.substr(0,2);
                                 var horaCierre = '<?php echo $filial->getHorario_cierre(); ?>'.substr(0,2);
                                 var horaTurno; //Se instancia en cada turno según el valor en el for
+
+                                //Modifique el boton con data-hora y data-cancha. la funcion javascript esta abajo del footer y envia los parametros al modal. No funciona!
                                 for(var i=horaInicio ; i<horaCierre ; i++){
-                                  $("#horas").append( "<button id='hora"+i+"' type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario'>"+i+":00</button>  " );
+                                  $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' data-hora="+i+" data-cancha='tipoCancha'>"+i+":00</button>  " );
                                 }
                                 $.each(data, function(i, turno) {
                                   horaTurno = turno.fechahora.substr(11, 2);
@@ -206,6 +211,10 @@ $filial = $filialDao->selectFilial($idFilial);
                                   }
                                 });
                             },
+                            complete: function(){
+                                $('.ajax-loader').css("visibility", "hidden");
+                                $('#horarios').css("visibility", "visible");
+                              },
                             error : function (xhr, ajaxOptions, thrownError){  
                               console.log(xhr.status);          
                               console.log(thrownError);
@@ -220,6 +229,7 @@ $filial = $filialDao->selectFilial($idFilial);
                       });*/
 
                       </script>
+                      
 
                       <div class="card">
                           <div class="card-body">
@@ -240,10 +250,12 @@ $filial = $filialDao->selectFilial($idFilial);
 
                       <div class="row" >
                           <div class="col-12" id="horarios">
-
+                              <div class="ajax-loader"><img src="loading_balls.gif" class="img-responsive" /></div>
                           </div>
                       </div>
+                      
 
+              <!-- ESTE ES EL MODAL, QUE NO ESTA RECIBIENDO BIEN LOS PARAMETROS. EL JS ESTA ABAJO DEL FOOTER -->
                       <!-- sample modal content -->
                       <div id="confirmarHorario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                           <div class="modal-dialog">
@@ -258,13 +270,17 @@ $filial = $filialDao->selectFilial($idFilial);
                                         <i class="fa fa-map-marker"></i> <b> Sede:</b> <?php echo $sede ?>
                                       </li>
                                       <li>
-                                        <i class="fa fa-calendar"></i><b> Dia y Hora:</b> fechaReserva / horaReserva
+                                        <i class="fa fa-calendar"></i><b> Dia y Hora:</b> 
+                                        <span id="modal-hora"></span>
+
                                       </li>
                                       <li>
-                                        <i class="mdi mdi-run"></i><b> Cancha:</b> tipoCancha
+                                        <i class="mdi mdi-run"></i><b> Cancha:</b> <span id="modal-cancha"></span>
                                       </li>
                                       <li>
-                                      <i class="fa fa-user"></i><b> Usuario:</b> usuario
+                                      <i class="fa fa-user"></i><b> Usuario:</b> <?php
+                                                echo $socio->nombre . " " . $socio->apellido;
+                                          ?>
                                       </li>
                                     </ul>
 
@@ -278,7 +294,6 @@ $filial = $filialDao->selectFilial($idFilial);
                           </div>
                       </div>
                       <!-- /.modal -->
-
 
                     </div>
                 </div>
@@ -307,6 +322,34 @@ $filial = $filialDao->selectFilial($idFilial);
     <!-- End Wrapper -->
     <!-- ============================================================== -->
     <!-- ============================================================== -->
+
+    <!-- ESTE SCRIPT ES PARA TRAER LOS ATRIBUTOS DESDE EL BUTTON HACIA EL MODAL -->
+                      <script type="text/javascript">
+                         // data-* attributes to scan when populating modal values
+                        var ATTRIBUTES = ['hora', 'cancha'];
+
+                        $('[data-toggle="modal"]').on('click', function (e) {
+                          // convert target (e.g. the button) to jquery object
+                          var $target = $(e.target);
+                          // modal targeted by the button
+                          var modalSelector = $target.data('target');
+                          
+                          // iterate over each possible data-* attribute
+                          ATTRIBUTES.forEach(function (attributeName) {
+                            // retrieve the dom element corresponding to current attribute
+                            var $modalAttribute = $(modalSelector + ' #modal-' + attributeName);
+                            var dataValue = $target.data(attributeName);
+                            
+                            // if the attribute value is empty, $target.data() will return undefined.
+                            // In JS boolean expressions return operands and are not coerced into
+                            // booleans. That way is dataValue is undefined, the left part of the following
+                            // Boolean expression evaluate to false and the empty string will be returned
+                            $modalAttribute.text(dataValue || '');
+                          });
+                        });
+                      </script>
+
+
     <script>
     // MAterial Date picker
 
@@ -516,37 +559,31 @@ $filial = $filialDao->selectFilial($idFilial);
     var query = 0;
     $("#consultarHorarios").click(function (e) {
 
-        query ++;
+      query ++;
 
-        var fecha = document.getElementById("datepicker-autoclose").value;
-        var deporte = document.getElementById("deporte").value;
+      var fecha = document.getElementById("datepicker-autoclose").value;
+      var deporte = document.getElementById("deporte").value;
 
-        if(query == 2){
-          $("#div1").remove();
-          query = 1;
-        }
+      if(query == 2){
+        $("#div1").remove();
+        query = 1;
+      }
 
-if(query == 1){
-  $("#horarios").append('<div id="div1" class="card"> <div class="card-body"><h4 class="card-title">Horarios disponibles el '+ fecha + " para canchas de " + deporte +'</h4>' +
-           '<div class="row"><div class="col-sm-10">' +
-           '<div id=horas>' +
-           '</div>' +
-           '</div></div></div></div></div>'
-  );
-}
-
-
-
-
-        });
-
-
-
-
+      if(query == 1){
+        $("#horarios").append('<div id="div1" class="card"> <div class="card-body"><h4 class="card-title">Horarios disponibles el '+ fecha + " para canchas de " + deporte +'</h4>' +
+                 '<div class="row"><div class="col-sm-10">' +
+                 '<div id=horas>' +
+                 '</div>' +
+                 '</div></div></div></div></div>'
+        );
+      }
+    });
     </script>
 
 
 
+                            
+                          
 
 </body>
 

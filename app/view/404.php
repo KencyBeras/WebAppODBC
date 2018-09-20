@@ -3,8 +3,6 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="../../public/css/404.css" rel="stylesheet" id="404">
 
-<!-- Cuerpo -->
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
