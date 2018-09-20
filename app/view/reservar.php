@@ -24,7 +24,11 @@ $turnoDao = new TurnoDao();
 
 $filial = $filialDao->selectFilial($idFilial);
 
- ?>
+$horario_apertura = $filial->getHorario_apertura();
+$horario_cierre = $filial->getHorario_cierre();
+$diaMantenimiento = $filial->getDiames_mantenimiento();
+
+?>
 
 <!DOCTYPE html>
 <html lang="ES">
@@ -192,19 +196,27 @@ $filial = $filialDao->selectFilial($idFilial);
                             },
                             success: function(data) {
                                 //on success return data here
-                                var horaInicio = '<?php echo $filial->getHorario_apertura(); ?>'.substr(0,2);
-                                var horaCierre = '<?php echo $filial->getHorario_cierre(); ?>'.substr(0,2);
+                                var horaInicio = '<?php echo $horario_apertura; ?>'.substr(0,2);
+                                var horaCierre = '<?php echo $horario_cierre; ?>'.substr(0,2);
+                                var diaMantenimiento = "<?php echo $diaMantenimiento ?>";
+                                var diaReserva = $("input[name=fecha]").val().substr(8,2);
+                                //Valido que el primer número no sea 0 (Ej 08, 09) - Si es 0 se toma solo el segundo dígito (Ej 8, 9)
+                                if(diaReserva.substr(0,1)==0) diaReserva = diaReserva.substr(1,1);
                                 var horaTurno; //Se instancia en cada turno según el valor en el for
 
                                 //Modifique el boton con data-hora y data-cancha. la funcion javascript esta abajo del footer y envia los parametros al modal. No funciona!
                                 for(var i=horaInicio ; i<horaCierre ; i++){
-                                  $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' id='hora"+i+"' data-cancha='tipoCancha'>"+i+":00</button>   ");
+                                  $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' id='hora"+i+"'>"+i+":00</button>   ");
+                                  if(diaReserva==diaMantenimiento){ //Si es el dia de mantenimiento (no se puede reservar)
+                                    $("#hora"+i).addClass("btn btn-info disabled"); //Cambio estilo del boton
+                                    $("#hora"+i).attr("disabled", true); //Desactivo el boton
+                                  }
                                 }
+
                                 $.each(data, function(i, turno) {
                                   horaTurno = turno.fechahora.substr(11, 2);
                                   for(var i=horaInicio ; i<horaCierre ; i++){
                                     if(i==horaTurno){
-                                      //$("input[id='hora"+i+"']").attr("disabled","disabled");
                                       $("#hora"+i).addClass("btn btn-info disabled"); //Cambio estilo del boton
                                       $("#hora"+i).attr("disabled", true); //Desactivo el boton
                                     }
