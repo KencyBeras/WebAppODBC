@@ -326,7 +326,7 @@ $filial = $filialDao->selectFilial($idFilial);
     <!-- ESTE SCRIPT ES PARA TRAER LOS ATRIBUTOS DESDE EL BUTTON HACIA EL MODAL -->
                       <script type="text/javascript">
                         $('#confirmarHorario').on('show.bs.modal', function (event) {
-                          $("#modal-hora").append($("[name='fecha']").val());
+                          $("#modal-hora").html($("[name='fecha']").val());
                           $("#modal-hora").append(" - " + $(event.relatedTarget).text());
                         });
                       </script>
