@@ -8017,6 +8017,10 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
     .switch label input[type=checkbox]:checked + .lever.switch-col-white:after {
       background-color: #ffffff; }
 
+.clockpicker-popover {
+        z-index: 999999;
+    }
+
 .ajax-loader {
   visibility: hidden;
   position: absolute;

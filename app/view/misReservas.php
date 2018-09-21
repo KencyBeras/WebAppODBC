@@ -138,7 +138,7 @@ foreach ($filiales as $filial) {
                                               <th>Fecha</th>
                                               <th>Precio</th>
                                               <th>Estado</th>
-                                              <th class="text-nowrap">Modificar</th>
+                                              <th class="text-nowrap">Cancelar reserva</th>
                                           </tr>
                                       </thead>
                                       <tbody>
@@ -154,11 +154,29 @@ foreach ($filiales as $filial) {
                                               <td><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
                                               <td><?php echo $catCanchas[$turno->getIdCancha()]; ?></td>
                                               <td>
-                                                  <div class="label label-table label-success"><?php echo $turno->getEstado(); ?></div>
+                                                  <?php 
+                                                    if ($turno->getEstado() == "Reservada"){
+
+                                                      echo '<div class="label label-table label-success">'. $turno->getEstado() .'</div>';
+                                                  
+                                                  }elseif($turno->getEstado() == "Cancelada"){
+                                                 
+                                                     echo '<div class="label label-table label-danger">'. $turno->getEstado() .'</div>';
+                                             
+                                                  }
+                                                  ?>
                                               </td>
                                               <td class="text-nowrap">
-                                                  <a href="#" data-toggle="tooltip" data-original-title="Modificar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                                  <a href="#" data-toggle="tooltip" data-original-title="Cancelar"> <i class="fa fa-close text-danger"></i> </a>
+                                                  <?php 
+                                                    if ($turno->getEstado() == "Reservada"){
+
+                                                      echo '<button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>';
+                                                  
+                                                  }
+                                                  ?> 
+
+
+                                                  
                                               </td>
                                           </tr>
                                             <?php
@@ -173,6 +191,28 @@ foreach ($filiales as $filial) {
                     </div>
                 </div>
                 <!-- row -->
+
+                
+
+                <div id="eliminarTurno" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                          <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                  <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                      <h4 class="modal-title">Eliminar Turno</h4>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <h4 class="modal-title">¿Seguro quieres cancelar la reserva?</h4>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                      <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Volver</button>
+                                                      <button type="button" class="btn btn-danger waves-effect waves-light">Cancelar Reserva</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->

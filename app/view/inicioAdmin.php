@@ -1,8 +1,15 @@
 <?php
 
 require_once '../model/dao/DataSource.php';
+require_once '../model/dao/FilialDao.php';
 require_once '../model/datos/Filial.php';
 require_once '../model/datos/Cancha.php';
+require_once '../model/datos/Turno.php';
+require_once '../model/dao/TurnoDao.php';
+require_once '../model/datos/Cancha.php';
+require_once '../model/dao/CanchaDao.php';
+require_once '../model/datos/Socio.php';
+require_once '../model/dao/SocioDao.php';
 
 
 @session_start();
@@ -10,9 +17,64 @@ require_once '../model/datos/Cancha.php';
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
 $socio = json_decode($_SESSION["datosSesion"]);
 
-$filiales = $_SESSION['filiales'];
+
+if(!isset($_SESSION["allFiliales"])){
+  $filialDao = new FilialDao();
+  $_SESSION["allFiliales"] = $filialDao->selectFiliales();
+
+}
+  $filiales = $_SESSION["allFiliales"];
+
+  if(!isset($_SESSION["allTurnos"])){
+  $turnoDao = new TurnoDao();
+  $_SESSION["allTurnos"] = $turnoDao->selectTurnos();
+}
+  $turnos = $_SESSION["allTurnos"];
+
+  if(!isset($_SESSION["canchasAll"])){
+  $CanchaDao = new CanchaDao();
+  $_SESSION["allCanchas"] = $CanchaDao->selectCanchas();
+
+}
+  $canchas = $_SESSION["allCanchas"];
+
+foreach ($canchas as $cancha) {
+  $idCancha = $cancha->getIdCancha();
+  $numCancha = $cancha->getNumCancha();
+  $deporte = $cancha->getDeporte();
+  $categoria = $cancha->getCategoria();
+
+  $numCanchas[$idCancha] = $numCancha;
+  $depCanchas[$idCancha] = $deporte;
+  $catCanchas[$idCancha] = $categoria;
+}
+
+foreach ($filiales as $filial) {
+  $idFilial = $filial->getIdFilial();
+  $localidad = $filial->getLocalidad();
+
+  $localidades[$idFilial] = $localidad;
+}
+
+if(!isset($_SESSION["allSocios"])){
+  $socioDao = new SocioDao();
+  $_SESSION["allSocios"] = $socioDao->selectSocios();
+
+}
+  $usuarios = $_SESSION["allSocios"];
+
+  foreach ($usuarios as $usuario) {
+  $idUser = $usuario->getIdSocio();
+  $user = $usuario->getUser();
+
+  $usuarios[$idUser] = $user;
+}
 
 ?>
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -27,21 +89,22 @@ $filiales = $_SESSION['filiales'];
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title>Club Social Los Amigos</title>
+    <title>Adminitración</title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <!-- Page plugins css -->
+    <link href="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../../public/css/style.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <!-- Daterange picker plugins css -->
+    <link href="../../assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
-
-
-
-    <style type="text/css">
-    #panelsedes {
-      word-wrap: normal;
-    }
-    </style>
+    
 </head>
 
 <body class="fix-header card-no-border">
@@ -112,39 +175,24 @@ $filiales = $_SESSION['filiales'];
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><h6>Banfield</h6></td>
-                                                <td>13:00 a 20:00</td>
-                                                <td>14</td>
-                                                <td class="text-nowrap">
-                                                  <button class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target="#editarSede"> <i class="fa fa-pencil text-inverse "></i> </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><h6>Lomas de Zamora</h6></td>
-                                                <td>13:00 a 21:00</td>
-                                                <td>29</td>
-                                                <td class="text-nowrap">
-                                                  <button class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target="#editarSede"> <i class="fa fa-pencil text-inverse "></i> </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><h6>Lanús</h6></td>
-                                                <td>18:00 a 23:00</td>
-                                                <td>13</td>
-                                                <td class="text-nowrap">
-                                                  <button class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target="#editarSede"> <i class="fa fa-pencil text-inverse "></i> </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><h6>Adrogue</h6></td>
-                                                <td>20:00 a 01:00</td>
-                                                <td>29</td>
-                                                <td class="text-nowrap">
-                                                  <button class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target="#editarSede"> <i class="fa fa-pencil text-inverse "></i> </button>
 
+                                            <?php 
+                                                foreach ($filiales as $filial) {  ?>
+                                                  
+                                                  <tr>
+                                                <td><h6><?php echo $filial->getLocalidad(); ?></h6></td>
+                                                <td><?php echo $filial->getHorario_apertura(); ?> a <?php echo $filial->getHorario_cierre(); ?></td>
+                                                <td><?php echo $filial->getDiames_mantenimiento(); ?></td>
+                                                <td class="text-nowrap">
+                                                  <button class="btn btn-outline-success waves-effect waves-light" data-toggle="modal" data-target="#editarSede"> <i class="fa fa-pencil text-inverse "></i></button>
                                                 </td>
                                             </tr>
+
+                                              <?php  }?>
+
+                                            
+
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -221,76 +269,61 @@ $filiales = $_SESSION['filiales'];
                             <div class="card-body">
                                 <form action="#" class="form-horizontal">
                                     <div class="form-body">
-                                            <div class="table-responsive">
+                                      <div class="table-responsive">
                                     <table id="myTable" class="table table-bordered table-striped">
                                       <thead>
                                           <tr>
                                               <th>#</th>
+                                              <th>Usuario</th>
                                               <th>Sede</th>
                                               <th>Cancha</th>
                                               <th>Fecha</th>
-                                              <th>Tipo</th>
+                                              <th>Precio</th>
                                               <th>Estado</th>
-                                              <th class="text-nowrap">Cancelar</th>
+                                              <th class="text-nowrap">Cancelar Reserva</th>
                                           </tr>
                                       </thead>
                                       <tbody>
+                                          <?php 
+                                                $count = 1;
+                                                foreach($turnos as $turno){
+                                                
+                                          ?>
                                           <tr>
-                                              <td>1</td>
-                                              <td>Lanus</td>
-                                              <td>Cancha 3 - Futbol</td>
-                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> 12/10/2018 19:00</span> </td>
-                                              <td>Sintetico</td>
+                                              <td><?php echo $count; ?></td>
+                                              <td><?php echo $usuarios[$turno->getidSocio()]; ?></td>
+                                              <td><?php echo $localidades[$turno->getIdFilial()]; ?></td>
+                                              <td><?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()];   ?></td>
+                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
+                                              <td><?php echo $catCanchas[$turno->getIdCancha()]; ?></td>
                                               <td>
-                                                  <div class="label label-table label-success">Reservada</div>
+                                                  <?php 
+                                                    if ($turno->getEstado() == "Reservada"){
+
+                                                      echo '<div class="label label-table label-success">'. $turno->getEstado() .'</div>';
+                                                  
+                                                  }elseif($turno->getEstado() == "Cancelada"){
+                                                 
+                                                     echo '<div class="label label-table label-danger">'. $turno->getEstado() .'</div>';
+                                             
+                                                  }
+                                                  ?>
+
                                               </td>
                                               <td class="text-nowrap">
-                                                  <button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>
+                                                  <?php 
+                                                    if ($turno->getEstado() == "Reservada"){
 
-                                                </td>
-                                          </tr>
-                                          <tr>
-                                              <td>2</td>
-                                              <td>Banfield</td>
-                                              <td>Cancha 1 - Futbol</td>
-                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> 17/10/2018 20:00</span> </td>
-                                              <td>Cemento</td>
-                                              <td>
-                                                  <div class="label label-table label-success">Reservada</div>
+                                                      echo '<button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>';
+                                                  
+                                                  }
+                                                  ?> 
                                               </td>
-                                              <td class="text-nowrap">
-                                                  <button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>
-
-                                                </td>
                                           </tr>
-                                          <tr>
-                                              <td>3</td>
-                                              <td>Lomas de Zamora</td>
-                                              <td>Cancha 1 - Tenis</td>
-                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> 18/10/2018 18:00</span> </td>
-                                              <td>Polvo de ladrillo</td>
-                                              <td>
-                                                  <div class="label label-table label-danger">Cancelada</div>
-                                              </td>
-                                              <td class="text-nowrap">
-                                                  <button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>
-
-                                                </td>
-                                          </tr>
-                                          <tr>
-                                              <td>4</td>
-                                              <td>Temperley</td>
-                                              <td>Cancha 5 - Futbol</td>
-                                              <td><span class="text-muted"><i class="fa fa-clock-o"></i> 12/10/2018 22:00</span> </td>
-                                              <td>Sintetico</td>
-                                              <td>
-                                                  <div class="label label-table label-success">Reservada</div>
-                                              </td>
-                                              <td class="text-nowrap">
-                                                  <button class="btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>
-
-                                                </td>
-                                          </tr>
+                                            <?php
+                                                $count ++;
+                                                }
+                                            ?>
                                       </tbody>
                                   </table>
                                 </div>
@@ -462,6 +495,8 @@ $filiales = $_SESSION['filiales'];
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
+
+
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
@@ -481,9 +516,147 @@ $filiales = $_SESSION['filiales'];
     <!--Custom JavaScript -->
     <script src="../../public/js/custom.min.js"></script>
     <!-- ============================================================== -->
-    <!-- Style switcher -->
+    <!-- Plugins for this page -->
     <!-- ============================================================== -->
-    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <!-- Plugin JavaScript -->
+    <script src="../../assets/plugins/moment/moment.js"></script>
+    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="../../assets/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="../../assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- This is data table -->
+    <script src="../../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function(group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                            last = group;
+                        }
+                    });
+                }
+            });
+
+        });
+    });
+    </script>
+    <script type="text/javascript">
+        $('#myTable').DataTable( {
+        "columnDefs": [
+            { "orderable": false, "targets": 6 }
+          ]
+          });
+    </script>
+    <script>
+    // MAterial Date picker    
+    $('#mdate').bootstrapMaterialDatePicker({
+        weekStart: 0,
+        time: false
+    });
+    $('#timepicker').bootstrapMaterialDatePicker({
+        format: 'HH:mm',
+        time: true,
+        date: false
+    });
+    $('#date-format').bootstrapMaterialDatePicker({
+        format: 'dddd DD MMMM YYYY - HH:mm'
+    });
+
+    $('#min-date').bootstrapMaterialDatePicker({
+        format: 'DD/MM/YYYY HH:mm',
+        minDate: new Date()
+    });
+    // Clock pickers
+    $('#single-input').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+    $('.clockpicker').clockpicker({
+        donetext: 'Done',
+    }).find('input').change(function() {
+        console.log(this.value);
+    });
+    $('#check-minutes').click(function(e) {
+        // Have to stop propagation here
+        e.stopPropagation();
+        input.clockpicker('show').clockpicker('toggleView', 'minutes');
+    });
+    if (/mobile/i.test(navigator.userAgent)) {
+        $('input').prop('readOnly', true);
+    }
+    // Colorpicker
+    $(".colorpicker").asColorPicker();
+    $(".complex-colorpicker").asColorPicker({
+        mode: 'complex'
+    });
+    $(".gradient-colorpicker").asColorPicker({
+        mode: 'gradient'
+    });
+    // Date Picker
+    jQuery('.mydatepicker, #datepicker').datepicker();
+    jQuery('#datepicker-autoclose').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+    jQuery('#date-range').datepicker({
+        toggleActive: true
+    });
+    jQuery('#datepicker-inline').datepicker({
+        todayHighlight: true
+    });
+    // Daterange picker
+    $('.input-daterange-datepicker').daterangepicker({
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
+    $('.input-daterange-timepicker').daterangepicker({
+        timePicker: true,
+        format: 'MM/DD/YYYY h:mm A',
+        timePickerIncrement: 30,
+        timePicker12Hour: true,
+        timePickerSeconds: false,
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse'
+    });
+    $('.input-limit-datepicker').daterangepicker({
+        format: 'MM/DD/YYYY',
+        minDate: '06/01/2015',
+        maxDate: '06/30/2015',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-danger',
+        cancelClass: 'btn-inverse',
+        dateLimit: {
+            days: 6
+        }
+    });
+    </script>
 </body>
 
 </html>
