@@ -167,17 +167,67 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               <h4 class="card-title">Canchas de <?php echo $sede->getLocalidad(); ?></h4>
                               <div class="row">
                                   <div class="col-sm-4">
-                                    <select id="deporte" class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
-                                        <option value="" selected disabled>Seleccionar</option>
+                                    <select id="deporte" class="" data-style="btn-info btn-outline-info">
+                                        <option value="" selected disabled>Deporte</option>
                                       <?php foreach ($_SESSION[$idFilial . "_deportes"] as $deporte){   ?>
                                         <option data-id="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
                                       <?php } ?>
+                                    </select>
+                                    <br><br>
+                                    <select id="cancha" class="" data-style="btn-info btn-outline-info" disabled>
+                                        <option value="" selected disabled>Cancha</option>
+                                      
                                     </select>
                                   </div>
 
                               </div>
                           </div>
                       </div>
+
+                       <script>
+                          $("#deporte").change(function(){
+                              $("#cancha").attr("disabled", false); //Desactivo el boton);
+
+
+                              $.ajax({
+                                url: "../test/ajaxCanchas.php?",
+                                data: {
+                                  idfilial: <?php echo $idFilial; ?>,
+                                  deporte: $("select[id=deporte]").val(),
+                                },
+                                type: 'GET', //{POST, GET}
+                                dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
+                                success: function(data) {
+
+                                  $('#cancha').html('<option value="" selected disabled>Cancha</option>');
+
+                                  $.each(data, function(i, cancha) {
+                                  idCancha = cancha.idCancha;
+
+                                  $('#cancha').append($('<option>', {
+                                    value: cancha.numcancha,
+                                    text: cancha.numcancha + " - " + cancha.categoria
+                                }));
+
+                                });
+                                    
+                                },
+                                error : function (xhr, ajaxOptions, thrownError){  
+                                  console.log(xhr.status);          
+                                  console.log(thrownError);
+                                } 
+                              });
+                              
+                          });
+
+                          $("#cancha").change(function(){
+                              $("#consultarHorarios").attr("disabled", false); //Desactivo el boton);
+
+                              
+                          });
+
+                          
+                      </script>
 
                       <script>
                       $(function () {
@@ -256,7 +306,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                                         </div>
                                   </div>
                                   <div class="col-sm-4">
-                                        <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info">Consultar</button>
+                                        <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info" disabled>Consultar</button>
                                   </div>
                               </div>
                           </div>
