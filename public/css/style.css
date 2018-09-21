@@ -8027,8 +8027,25 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
   z-index: +100 !important;
 }
 
+.ajax-loaderCanchas{
+  visibility: hidden;
+  position: absolute;
+  z-index: +100 !important;
+}
+
 .horarios {
   visibility: hidden;
 }
+
+.divCanchas {
+  visibility: hidden;
+}
+
+.inputCanchas {
+  visibility: hidden;
+}
+
+
+
 
 }

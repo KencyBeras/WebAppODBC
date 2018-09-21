@@ -1,7 +1,7 @@
 DELIMITER //
 DROP PROCEDURE IF EXISTS RESERVAR_CANCHA //
 CREATE PROCEDURE RESERVAR_CANCHA(
-	IN r_localidad VARCHAR(60),
+	IN r_idFilial INT,
 	IN r_numcancha INT,
     IN r_deporte VARCHAR(45),
     IN r_numafiliado INT,
@@ -12,13 +12,11 @@ COMMENT 'Da de alta un turno en una filial y cancha determinada'
 BEGIN
 	-- Declaraciones
 	DECLARE error_reserva CONDITION FOR SQLSTATE '22013';
-    DECLARE r_idfilial INT DEFAULT 0;
     DECLARE r_idcancha INT DEFAULT 0;
     DECLARE r_idsocio INT DEFAULT 0;
     DECLARE fechahora_valida BOOLEAN DEFAULT 0; -- Si no se está sobre el día de mantenimiento la cancha está abierta a esa hora
     DECLARE turno_existente BOOLEAN DEFAULT 0; -- Para saber que no exista un turno activo en esa cancha a esa hora
     -- Validaciones
-    SELECT IFNULL(SUM(f.idfilial), 0) INTO r_idfilial FROM filial f WHERE f.localidad=r_localidad;
     SELECT IFNULL(SUM(c.idcancha), 0) INTO r_idcancha FROM cancha c WHERE c.idfilial=r_idfilial AND c.num_cancha=r_numcancha AND c.deporte=r_deporte;
     SELECT IFNULL(SUM(s.idsocio), 0) INTO r_idsocio FROM socio s WHERE s.num_afiliado=r_numafiliado;
     

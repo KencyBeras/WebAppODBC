@@ -133,7 +133,7 @@ $filiales = $_SESSION['filiales'];
                                           ?>
                                       </div>
                                       <br>
-                                      <a href="reservar.php?id=<?php echo $idFilial;?>&sede=<?php echo $localidad ?>" class="btn btn-primary">Reservar</a>
+                                      <a href="reservar.php?id=<?php echo $idFilial;?>" class="btn btn-primary">Reservar</a>
                                   </div>
                               </div>
                               <!-- Card -->

@@ -17,12 +17,13 @@ if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") 
 $socio = json_decode($_SESSION["datosSesion"]);
 
 $idFilial = $_GET["id"];
-$sede = $_GET["sede"];
 
 $filialDao = new FilialDao();
 $turnoDao = new TurnoDao();
 
 $sede = $filialDao->selectFilial($idFilial);
+
+if(isset($sede)){
 
 $horario_apertura = $sede->getHorario_apertura();
 $horario_cierre = $sede->getHorario_cierre();
@@ -160,6 +161,12 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+
+                <form action="../controller/ReservarController.php" method="POST">
+
+                    <input type="hidden" name="idFilial" value="<?php echo $idFilial; ?>">
+                    <input type="hidden" name="numAfiliado" value="<?php echo $socio->num_afiliado; ?>">
+
                 <div class="row">
                     <div class="col-md-12 col-12">
                       <div class="card">
@@ -167,27 +174,144 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               <h4 class="card-title">Canchas de <?php echo $sede->getLocalidad(); ?></h4>
                               <div class="row">
                                   <div class="col-sm-4">
-                                    <select id="deporte" class="" data-style="btn-info btn-outline-info">
+
+                                    <select id="deporte" name="deporte" class="form-control custom-select">
                                         <option value="" selected disabled>Deporte</option>
                                       <?php foreach ($_SESSION[$idFilial . "_deportes"] as $deporte){   ?>
                                         <option data-id="<?php echo $deporte ?>"><?php   echo $deporte ?></option>
                                       <?php } ?>
                                     </select>
+
                                     <br><br>
-                                    <select id="cancha" class="" data-style="btn-info btn-outline-info" disabled>
-                                        <option value="" selected disabled>Cancha</option>
-                                      
-                                    </select>
+
+                                        <select id="cancha" name="cancha" class="form-control custom-select" disabled>
+                                          <option value="" selected disabled>Cancha</option>
+                                      </select>
+
+                                    
+
                                   </div>
+
+                                   <div class="col-sm-6" id="divCanchas">
+                                        <div class="ajax-loaderCanchas"><img src="../../public/img/loading_balls.gif" class="img-responsive" /></div>
+                                     </div>
 
                               </div>
                           </div>
                       </div>
 
-                       <script>
+                      <div class="card">
+                          <div class="card-body">
+                              <h4 class="card-title">Buscar horarios disponibles</h4>
+                              <div class="row">
+                                  <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input name="fecha" type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
+                                            <span class="input-group-addon"><i class="icon-calender"></i></span>
+                                        </div>
+                                  </div>
+                                  <div class="col-sm-4">
+                                        <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info" disabled>Consultar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row" >
+                          <div class="col-12" id="horarios">
+                              <div class="ajax-loader"><img src="../../public/img/loading_balls.gif" class="img-responsive" /></div>
+                          </div>
+                      </div>
+                      
+
+              <!-- ESTE ES EL MODAL, QUE NO ESTA RECIBIENDO BIEN LOS PARAMETROS. EL JS ESTA ABAJO DEL FOOTER -->
+                      <!-- sample modal content -->
+                      <div id="confirmarHorario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                      <h4 class="modal-title">Confirmar Reserva</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="fa fa-map-marker"></td>
+                                                <td></i><?php echo $sede->getLocalidad(); ?></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-calendar"></i></td>
+                                                <td><span id="modal-hora"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="mdi mdi-run"> </i></td>
+                                                <td><span id="modal-cancha"></span></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-user"></td>
+                                                <td><?php echo $socio->user;?></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-send"> </i></td>
+                                                <td><?php echo $socio->email;?></td>
+                                            </tr>
+                                        </tbody>
+                                         
+                                    </table>
+
+                                </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancelar</button>
+                                      <button type="submit" class="btn btn-info waves-effect waves-light">Reservar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- /.modal -->
+
+                    </div>
+                </div>
+
+                </form>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <?php
+              require('footer.php')
+             ?>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+
+    <!-- ESTE SCRIPT ES PARA TRAER LOS ATRIBUTOS DESDE EL BUTTON HACIA EL MODAL -->
+                      <script type="text/javascript">
+                        $('#confirmarHorario').on('show.bs.modal', function (event) {
+                          $("#modal-hora").html($("[name='fecha']").val());
+                          $("#modal-hora").append(" " + $(event.relatedTarget).text());
+                          $("#modal-cancha").html(document.getElementById("deporte").value);
+                        });
+                      </script>
+
+
+                        <script>
                           $("#deporte").change(function(){
                               $("#cancha").attr("disabled", false); //Desactivo el boton);
-
 
                               $.ajax({
                                 url: "../test/ajaxCanchas.php?",
@@ -197,6 +321,10 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                                 },
                                 type: 'GET', //{POST, GET}
                                 dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
+                                beforeSend: function(){
+                                  $('#divCanchas').css("visibility", "hidden");
+                                  $('.ajax-loaderCanchas').css("visibility", "visible");
+                                },
                                 success: function(data) {
 
                                   $('#cancha').html('<option value="" selected disabled>Cancha</option>');
@@ -205,12 +333,18 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                                   idCancha = cancha.idCancha;
 
                                   $('#cancha').append($('<option>', {
+                                    name: "cancha",
                                     value: cancha.numcancha,
                                     text: cancha.numcancha + " - " + cancha.categoria
                                 }));
 
-                                });
-                                    
+                                  $("#idCancha").val(idCancha) // Seteo sobre el input hidden idCancha el idCancha
+
+                                });   
+                                },
+                                complete: function(){
+                                  $('.ajax-loaderCanchas').css("visibility", "hidden");
+                                  $('#divCanchas').css("visibility", "visible");
                                 },
                                 error : function (xhr, ajaxOptions, thrownError){  
                                   console.log(xhr.status);          
@@ -226,7 +360,6 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               
                           });
 
-                          
                       </script>
 
                       <script>
@@ -294,114 +427,6 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                       });*/
 
                       </script>
-                      
-
-                      <div class="card">
-                          <div class="card-body">
-                              <h4 class="card-title">Buscar horarios disponibles</h4>
-                              <div class="row">
-                                  <div class="col-sm-4">
-                                        <div class="input-group">
-                                            <input name="fecha" type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
-                                            <span class="input-group-addon"><i class="icon-calender"></i></span>
-                                        </div>
-                                  </div>
-                                  <div class="col-sm-4">
-                                        <button id="consultarHorarios" name="consultarHorarios" type="button" class="btn waves-effect waves-light btn-info" disabled>Consultar</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="row" >
-                          <div class="col-12" id="horarios">
-                              <div class="ajax-loader"><img src="../../public/img/loading_balls.gif" class="img-responsive" /></div>
-                          </div>
-                      </div>
-                      
-
-              <!-- ESTE ES EL MODAL, QUE NO ESTA RECIBIENDO BIEN LOS PARAMETROS. EL JS ESTA ABAJO DEL FOOTER -->
-                      <!-- sample modal content -->
-                      <div id="confirmarHorario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                          <div class="modal-dialog">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                      <h4 class="modal-title">Confirmar Reserva</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    <div class="table-responsive">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td><i class="fa fa-map-marker"></td>
-                                                <td></i><?php echo $sede->getLocalidad(); ?></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-calendar"></i></td>
-                                                <td><span id="modal-hora"></span></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td><i class="mdi mdi-run"> </i></td>
-                                                <td><span id="modal-cancha"></span></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-user"></td>
-                                                <td><?php echo $socio->user;?></td>
-
-                                            </tr>
-                                            <tr>
-                                                <td><i class="fa fa-send"> </i></td>
-                                                <td><?php echo $socio->email;?></td>
-
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                      <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancelar</button>
-                                      <button type="button" class="btn btn-info waves-effect waves-light">Reservar</button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <!-- /.modal -->
-
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <?php
-              require('footer.php')
-             ?>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-
-    <!-- ESTE SCRIPT ES PARA TRAER LOS ATRIBUTOS DESDE EL BUTTON HACIA EL MODAL -->
-                      <script type="text/javascript">
-                        $('#confirmarHorario').on('show.bs.modal', function (event) {
-                          $("#modal-hora").html($("[name='fecha']").val());
-                          $("#modal-hora").append(" - " + $(event.relatedTarget).text());
-                          $("#modal-cancha").html(document.getElementById("deporte").value);
-                        });
-                      </script>
-
 
     <script>
     // MAterial Date picker
@@ -645,6 +670,11 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
 
 
 <?php
+    } // ifset selectFilial
+    else{
+      header("Location: 404.php");
     }
+
+    } // ifset session
     else header("Location: ../../index.php");
 ?>
