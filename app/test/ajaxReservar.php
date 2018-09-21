@@ -17,11 +17,12 @@ require_once '../model/dao/CanchaDao.php';
   $idfilial = $_GET['idfilial'];
   $deporte = $_GET['deporte'];
   $fechaReserva = $_GET['fechaReserva'];
+  $numcancha = $_GET['numcancha'];
   //Trayendo filial y cancha, obtengo los parametros necesarios para traer el turno
   $filial = $filialDao->selectFilial($idfilial);
-  $canchas = $canchaDao->selectCanchasByFilialAndDeporte($idfilial, $deporte);
+  $cancha = $canchaDao->selectCanchasByFilialAndDeporte($idfilial, $deporte);
   //Insertando el turno
-  $turnos = $turnoDao->selectTurnosByFilialAndFecha($idfilial, $deporte, $fechaReserva,  
+  $turnos = $turnoDao->selectTurnosByFilialAndFecha($idfilial, $numcancha, $deporte, $fechaReserva,  
   $filial->getHorario_apertura(), $filial->getHorario_cierre());
   echo json_encode($turnos);
 ?>

@@ -238,6 +238,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               idfilial: <?php echo $idFilial; ?>,
                               fechaReserva: $("input[name=fecha]").val(),
                               deporte: $("select[id=deporte]").val(),
+                              numcancha: $("select[id=cancha]").val(),
                             },
                             type: 'GET', //{POST, GET}
                             dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
