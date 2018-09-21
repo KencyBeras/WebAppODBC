@@ -15,7 +15,7 @@ $idFilial = $_GET["id"];
 $sede = $_GET["sede"];
 
 $filialDao = new FilialDao();
-$filial = $filialDao->selectFilial($idFilial);
+$filialView = $filialDao->selectFilial($idFilial);
 
 $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
 
@@ -33,7 +33,7 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title><?php echo $filial->getLocalidad(); ?></title>
+    <title><?php echo $filialView->getLocalidad(); ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Page plugins css -->
@@ -85,11 +85,11 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede ?></h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $filialView->getLocalidad(); ?></h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../">Inicio</a></li>
-                            <li class="breadcrumb-item">Reservar cancha</li>
-                            <li class="breadcrumb-item active"><?php echo $sede ?></li>
+                            <li class="breadcrumb-item"><a href="../../">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="../../">Reservar cancha</a></li>
+                            <li class="breadcrumb-item active"><?php echo $filialView->getLocalidad(); ?></li>
                         </ol>
                     </div>
                 </div>
@@ -113,10 +113,10 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
                                     </div>
                                     <div class="col-md-6 col-lg-6">
                                       <medium class="text-muted">Direccion </medium>
-                                      <h6><?php echo $filial->getLocalidad(); ?></h6>
+                                      <h6><?php echo $filialView->getLocalidad(); ?></h6>
                                       <br>
                                       <medium class="text-muted ">Horario</medium>
-                                      <h6>De <?php echo $filial->getHorario_apertura(); ?> a <?php echo $filial->getHorario_cierre(); ?></h6>
+                                      <h6>De <?php echo $filialView->getHorario_apertura(); ?> a <?php echo $filialView->getHorario_cierre(); ?></h6>
                                       <br>
 
 
@@ -150,15 +150,9 @@ $localidad = explode(' ', $sede)[0]; //Primera palabra de la localidad
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer">
-                © 2018 Club Social Los Amigos
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+             <?php
+              require('footer.php')
+             ?>
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->

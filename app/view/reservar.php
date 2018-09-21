@@ -22,11 +22,11 @@ $sede = $_GET["sede"];
 $filialDao = new FilialDao();
 $turnoDao = new TurnoDao();
 
-$filial = $filialDao->selectFilial($idFilial);
+$sede = $filialDao->selectFilial($idFilial);
 
-$horario_apertura = $filial->getHorario_apertura();
-$horario_cierre = $filial->getHorario_cierre();
-$diaMantenimiento = $filial->getDiames_mantenimiento();
+$horario_apertura = $sede->getHorario_apertura();
+$horario_cierre = $sede->getHorario_cierre();
+$diaMantenimiento = $sede->getDiames_mantenimiento();
 
 ?>
 
@@ -42,7 +42,7 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title>Reservar cancha en <?php echo $sede ?></title>
+    <title>Reservar cancha en <?php echo $sede->getLocalidad(); ?></title>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- All Jquery -->
@@ -146,11 +146,11 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede ?></h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede->getLocalidad(); ?></h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="../../">Inicio</a></li>
-                            <li class="breadcrumb-item">Reservar cancha</li>
-                            <li class="breadcrumb-item active"><?php echo $sede ?></li>
+                            <li class="breadcrumb-item"><a href="../../">Reservar cancha</a></li>
+                            <li class="breadcrumb-item active"><?php echo $sede->getLocalidad(); ?></li>
                         </ol>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                     <div class="col-md-12 col-12">
                       <div class="card">
                           <div class="card-body">
-                              <h4 class="card-title">Canchas de <?php echo $sede ?></h4>
+                              <h4 class="card-title">Canchas de <?php echo $sede->getLocalidad(); ?></h4>
                               <div class="row">
                                   <div class="col-sm-4">
                                     <select id="deporte" class="selectpicker m-b-20 m-r-10" data-style="btn-info btn-outline-info">
@@ -208,7 +208,7 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                                 for(var i=horaInicio ; i<horaCierre ; i++){
                                   $("#horas").append( "<button type='button' class='btn waves-effect waves-light btn-info' data-toggle='modal' data-target='#confirmarHorario' id='hora"+i+"'>"+i+":00</button>   ");
                                   if(diaReserva==diaMantenimiento){ //Si es el dia de mantenimiento (no se puede reservar)
-                                    $("#hora"+i).addClass("btn btn-info disabled"); //Cambio estilo del boton
+                                    $("#hora"+i).addClass("btn btn-danger disabled"); //Cambio estilo del boton
                                     $("#hora"+i).attr("disabled", true); //Desactivo el boton
                                   }
                                 }
@@ -217,8 +217,9 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                                   horaTurno = turno.fechahora.substr(11, 2);
                                   for(var i=horaInicio ; i<horaCierre ; i++){
                                     if(i==horaTurno){
-                                      $("#hora"+i).addClass("btn btn-info disabled"); //Cambio estilo del boton
+                                      $("#hora"+i).addClass("btn btn-danger disabled"); //Cambio estilo del boton
                                       $("#hora"+i).attr("disabled", true); //Desactivo el boton
+
                                     }
                                   }
                                 });
@@ -262,7 +263,7 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
 
                       <div class="row" >
                           <div class="col-12" id="horarios">
-                              <div class="ajax-loader"><img src="loading_balls.gif" class="img-responsive" /></div>
+                              <div class="ajax-loader"><img src="../../public/img/loading_balls.gif" class="img-responsive" /></div>
                           </div>
                       </div>
                       
@@ -277,26 +278,37 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                                       <h4 class="modal-title">Confirmar Reserva</h4>
                                   </div>
                                   <div class="modal-body">
-                                    <ul>
-                                      <li>
-                                        <i class="fa fa-map-marker"></i> <b> Sede:</b> <?php echo $sede ?>
-                                      </li>
-                                      <li>
-                                        <i class="fa fa-calendar"></i><b> Dia y Hora:</b> 
-                                        <span id="modal-hora"></span>
+                                    <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><i class="fa fa-map-marker"></td>
+                                                <td></i><?php echo $sede->getLocalidad(); ?></td>
 
-                                      </li>
-                                      <li>
-                                        <i class="mdi mdi-run"></i><b> Cancha:</b> <span id="modal-cancha"></span>
-                                      </li>
-                                      <li>
-                                      <i class="fa fa-user"></i><b> Usuario:</b> <?php
-                                                echo $socio->nombre . " " . $socio->apellido;
-                                          ?>
-                                      </li>
-                                    </ul>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-calendar"></i></td>
+                                                <td><span id="modal-hora"></span></td>
 
+                                            </tr>
+                                            <tr>
+                                                <td><i class="mdi mdi-run"> </i></td>
+                                                <td><span id="modal-cancha"></span></td>
 
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-user"></td>
+                                                <td><?php echo $socio->user;?></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-send"> </i></td>
+                                                <td><?php echo $socio->email;?></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancelar</button>
@@ -316,15 +328,9 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer">
-                © 2018 Club Social Los Amigos
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            <?php
+              require('footer.php')
+             ?>
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
@@ -340,6 +346,7 @@ $diaMantenimiento = $filial->getDiames_mantenimiento();
                         $('#confirmarHorario').on('show.bs.modal', function (event) {
                           $("#modal-hora").html($("[name='fecha']").val());
                           $("#modal-hora").append(" - " + $(event.relatedTarget).text());
+                          $("#modal-cancha").html(document.getElementById("deporte").value);
                         });
                       </script>
 

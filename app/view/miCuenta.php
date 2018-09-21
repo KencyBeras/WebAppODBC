@@ -1,11 +1,19 @@
 <?php
 
+require_once '../model/dao/DataSource.php';
+require_once '../model/datos/Filial.php';
+require_once '../model/datos/Cancha.php';
+
+
 @session_start();
 
 if(isset($_SESSION["datosSesion"]) && (strcmp($_SESSION["tipoSesion"], "socio") == 0)){
 $socio = json_decode($_SESSION["datosSesion"]);
 
+$filiales = $_SESSION['filiales'];
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ES">
@@ -19,19 +27,21 @@ $socio = json_decode($_SESSION["datosSesion"]);
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
-    <title>Mi cuenta</title>
+    <title>Club Social Los Amigos</title>
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
+
+
+    <style type="text/css">
+    #panelsedes {
+      word-wrap: normal;
+    }
+    </style>
 </head>
 
 <body class="fix-header card-no-border">
@@ -55,7 +65,7 @@ $socio = json_decode($_SESSION["datosSesion"]);
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
         <div class="page-wrapper">
-            <!-- ============================================================== -->
+                    <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
@@ -93,31 +103,31 @@ $socio = json_decode($_SESSION["datosSesion"]);
                                           <div class="form-group">
                                               <label class="col-md-12">Nombre</label>
                                               <div class="col-md-12">
-                                                  <input type="text" placeholder="<?php echo  $socio->nombre  ?>" class="form-control form-control-line">
+                                                  <input type="text" value="<?php echo  $socio->nombre  ?>" class="form-control form-control-line">
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <label class="col-md-12">Apellido</label>
                                               <div class="col-md-12">
-                                                  <input type="text" placeholder="<?php echo  $socio->apellido  ?>" class="form-control form-control-line">
+                                                  <input type="text" value="<?php echo  $socio->apellido  ?>" class="form-control form-control-line">
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <label for="example-email" class="col-md-12">Email</label>
                                               <div class="col-md-12">
-                                                  <input type="email" placeholder="<?php echo  $socio->email  ?>" class="form-control form-control-line">
+                                                  <input type="email" value="<?php echo  $socio->email  ?>" class="form-control form-control-line">
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <label class="col-md-12">Direccion</label>
                                               <div class="col-md-12">
-                                                  <input type="text" placeholder="<?php echo  $socio->direccion  ?>" class="form-control form-control-line">
+                                                  <input type="text" value="<?php echo  $socio->direccion  ?>" class="form-control form-control-line">
                                               </div>
                                           </div>
                                           <div class="form-group">
                                               <label class="col-md-12">Telefono</label>
                                               <div class="col-md-12">
-                                                  <input type="text" placeholder="<?php echo  $socio->telefono  ?>" class="form-control form-control-line">
+                                                  <input type="text" value="<?php echo  $socio->telefono  ?>" class="form-control form-control-line">
                                               </div>
                                           </div>
 
@@ -206,18 +216,17 @@ $socio = json_decode($_SESSION["datosSesion"]);
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
-            <?php
-                require('footer.php');
-             ?>
+
+
+                        <?php
+                          require('footer.php')
+                         ?>
+
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
     </div>
-
-
-
-
     <!-- ============================================================== -->
     <!-- End Wrapper -->
     <!-- ============================================================== -->
@@ -244,6 +253,7 @@ $socio = json_decode($_SESSION["datosSesion"]);
     <!-- ============================================================== -->
     <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
+    <!-- Scripts para ver la password en formulario de recuperacion de password -->
     <script type="text/javascript">
     $(".toggle-password1").click(function() {
       $(this).toggleClass("fa-eye fa-eye-slash");
@@ -279,6 +289,7 @@ $socio = json_decode($_SESSION["datosSesion"]);
       }
       });
     </script>
+    <!-- Fin scripts -->
 
 </body>
 
