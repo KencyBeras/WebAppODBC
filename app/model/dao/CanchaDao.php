@@ -13,6 +13,32 @@ odbc_close_all();
 
 class CanchaDao {
 
+  public function selectCanchasByFilialAndDeporte($idfilial, $deporte){
+      $datasource = new DataSource();
+      $listaCancha = array();
+      $cancha = null;
+      try{
+          $sql = "SELECT * FROM cancha WHERE idfilial=".$idfilial." AND deporte='".$deporte."'";
+          $result = $datasource->ejecutarQuery($sql);
+          while($fila = odbc_fetch_array($result)){
+              $idCancha = $fila['idcancha'];
+              $idFilial = $fila['idfilial'];
+              $numcancha = $fila['num_cancha'];
+              $deporte = $fila['deporte'];
+              $categoria = $fila['categoria'];
+              $cancha = new Cancha($idCancha, $idFilial, $numcancha, $deporte, $categoria);
+              array_push($listaCancha, $cancha);
+          }
+      }
+      catch(Exception $e){
+          echo $e->getMessage();
+      }
+      finally{
+          odbc_close_all();
+      }
+      return $listaCancha;
+  }
+
   public function selectCanchasByFilial($idFilial){
       $datasource = new DataSource();
       $listaCancha = array();

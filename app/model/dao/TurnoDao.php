@@ -98,7 +98,7 @@ class TurnoDao {
         return $listaTurno;
     }
 
-    public function selectTurnosByFilialAndFecha($idFilial, $fecha, $horario_apertura, $horario_cierre){
+    public function selectTurnosByFilialAndFecha($idFilial, $deporte, $fecha, $horario_apertura, $horario_cierre){
         $datasource = new DataSource();
         $listaTurno = array();
         $turno = null;
@@ -106,8 +106,10 @@ class TurnoDao {
         $fechaApertura = $fecha . " " . $horario_apertura;
         $fechaCierre = $fecha . " " . $horario_cierre;
         try{
-            $sql = "SELECT * FROM turno
-            WHERE idfilial=".$idFilial." AND (fechahora between '" . $fechaApertura . "' AND '" . $fechaCierre . "')";
+            $sql = "SELECT * FROM turno t
+            JOIN cancha c ON t.idcancha=c.idcancha
+            WHERE t.idfilial=".$idFilial." AND (t.fechahora between '" . $fechaApertura . "' AND '" . $fechaCierre . "')
+            AND c.deporte='".$deporte."'";
             $result = $datasource->ejecutarQuery($sql);
             while($fila = odbc_fetch_array($result)){
                 $idTurno = $fila['idturno'];
