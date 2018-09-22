@@ -166,6 +166,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
 
                     <input type="hidden" name="idFilial" value="<?php echo $idFilial; ?>">
                     <input type="hidden" name="numAfiliado" value="<?php echo $socio->num_afiliado; ?>">
+                    <input type="hidden" id="fechaHora" name="fechaHora" value="">
 
                 <div class="row">
                     <div class="col-md-12 col-12">
@@ -224,7 +225,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                       </div>
                       
 
-              <!-- ESTE ES EL MODAL, QUE NO ESTA RECIBIENDO BIEN LOS PARAMETROS. EL JS ESTA ABAJO DEL FOOTER -->
+              <!-- MODAL DE CONFIRMACIÓN DE RESERVA -->
                       <!-- sample modal content -->
                       <div id="confirmarHorario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                           <div class="modal-dialog">
@@ -307,7 +308,23 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                           $("#modal-cancha").html(document.getElementById("deporte").value);
                         });
                       </script>
-
+                      <!-- SETEO DEL INPUT TYPE HIDDEN "fechaHora" -->
+                      <script>
+                        $( "form" ).submit(function() { //Al enviar seteo fechaHora en el hidden para poder usarlo por POST
+                          $("input[name='fechaHora']").val($("#modal-hora").text());
+                        });
+                      </script>
+                      <script>
+                        $("input[name='fecha']").change(function () {
+                          fechaHoy = new Date();
+                          fechaHoy.setDate(fechaHoy.getDate() - 1); //Para que funcione con la fecha actual le resto 1 día
+                          fechaSelect = $("input[name='fecha']").val();
+                          if(new Date(fechaHoy) > new Date(fechaSelect)){
+                            alert("No puede realizar una reserva en fechas anteriores");
+                            $("input[name='fecha']").val("");
+                          }
+                        });
+                      </script>
 
                         <script>
                           $("#deporte").change(function(){
@@ -421,11 +438,6 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                         });
                       });
 
-                      /*$.get( "ajax/test.html", function( data ) {
-                        $( ".result" ).html( data );
-                        alert( "Load was performed." );
-                      });*/
-
                       </script>
 
     <script>
@@ -507,7 +519,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
     });
     $('.input-limit-datepicker').daterangepicker({
         format: 'YYYY/MM/DD',
-        minDate: '06/01/2015',
+        minDate: 0,
         maxDate: '06/30/2015',
         buttonClasses: ['btn', 'btn-sm'],
         applyClass: 'btn-danger',
@@ -590,7 +602,10 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
             });
             return false;
         });
-        $(".ajax").select2({
+        $("#datepicker-autoclose").datepicker({
+          minDate: new Date()
+        });
+        /*$(".ajax").select2({
             ajax: {
                 url: "https://api.github.com/search/repositories",
                 dataType: 'json',
@@ -622,7 +637,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
             minimumInputLength: 1,
             templateResult: formatRepo, // omitted for brevity, see the source of this page
             templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-        });
+        });*/
     });
     </script>
 
