@@ -16,6 +16,7 @@ BEGIN
     DECLARE r_idsocio INT DEFAULT 0;
     DECLARE fechahora_valida BOOLEAN DEFAULT 0; -- Si no se está sobre el día de mantenimiento la cancha está abierta a esa hora
     DECLARE turno_existente BOOLEAN DEFAULT 0; -- Para saber que no exista un turno activo en esa cancha a esa hora
+    DECLARE fecha_actual DATETIME DEFAULT NOW(); -- Fecha de hoy
     -- Validaciones
     SELECT IFNULL(SUM(c.idcancha), 0) INTO r_idcancha FROM cancha c WHERE c.idfilial=r_idfilial AND c.num_cancha=r_numcancha AND c.deporte=r_deporte;
     SELECT IFNULL(SUM(s.idsocio), 0) INTO r_idsocio FROM socio s WHERE s.num_afiliado=r_numafiliado;
@@ -26,7 +27,7 @@ BEGIN
 		WHERE idfilial=r_idfilial AND num_cancha=r_numcancha AND deporte=r_deporte
 		AND (TIME(r_fechahora) between horario_apertura AND horario_cierre)
         AND (DAY(r_fechahora) != diames_mantenimiento);
-        IF(fechahora_valida) THEN
+        IF(fechahora_valida AND r_fechahora>fecha_actual) THEN
 			SELECT IFNULL(SUM(1), 0) INTO turno_existente FROM turno WHERE idcancha=r_idcancha AND fechahora=r_fechahora;
             IF(!turno_existente) THEN -- Se puede reservar la cancha correctamente
 				INSERT INTO turno (idfilial, idcancha, idsocio, fechahora, estado)
