@@ -21,6 +21,7 @@ $email = $_POST['email'];
 
 //Lógica de registro
 $resultado = $socioDao->registroSocio($user, $pass, $nombre, $apellido, $direccion, $telefono, $email);
+
 //Enviando el resultado según corresponda
 $_SESSION["mensajeRegistro"] = array();
 if($resultado==1){

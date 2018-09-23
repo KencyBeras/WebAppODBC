@@ -15,6 +15,7 @@ if(!isset($_SESSION['datosSesion'])){ //Si la sesión no está definida
 }
 else {                                  //Si ya está definida se redirige a la pantalla principal según corresponda
     $tipo = $_SESSION['tipoSesion'];
+
     if(strcmp($tipo, "socio") == 0) { //Si hay coincidencia con el tipo de sesión 'socio'
         header("Location: app/view/inicioSocio.php");
     }

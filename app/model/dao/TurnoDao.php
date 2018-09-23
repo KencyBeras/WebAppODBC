@@ -154,6 +154,29 @@ class TurnoDao {
         return $resultado;
     }
 
+
+    public function cancelarReserva($idturno){
+        $datasource = new DataSource();
+        $resultado = null;
+        try{
+            $sql = "CALL CANCELAR_CANCHA('".$idturno."', @resultado)";
+            $respuesta = $datasource->ejecutarQuery($sql);
+            if($respuesta!=null){
+                //Nos aseguramos que en la BD la consulta haya impactado correctamente
+                $respuesta = $datasource->ejecutarQuery("SELECT @resultado AS ok");
+                if($fila = odbc_fetch_array($respuesta)) $resultado = $fila['ok'];
+            }
+            
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        finally{
+            odbc_close_all();
+        }
+        return $resultado;
+    }
+
 }
 
 

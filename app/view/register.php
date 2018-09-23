@@ -46,11 +46,11 @@
         <?php
         if(isset($_SESSION["mensajeRegistro"])){
           if($_SESSION["mensajeRegistro"][0] == 0){
-          echo '<div class="alert alert-danger" role="alert">';
-          echo $_SESSION["mensajeRegistro"][1];
-          echo '</div>';
+            echo '<div class="alert alert-danger" role="alert">';
+            echo $_SESSION["mensajeRegistro"][1];
+            echo '</div>';
           }
-        unset($_SESSION["mensajeRegistro"]);
+          unset($_SESSION["mensajeRegistro"]);
         }
         ?>
         <h3 class="box-title m-t-20 m-b-0">Registrate ahora</h3><small>Crea tu cuenta y empezá a reservar tus canchas fácil</small>
