@@ -1,4 +1,4 @@
-Quedaría validar que no se pueda hacer una reserva en el día actual en los horarios que ya pasaron (se tiene que hacer en el ajax que crea los botones)
+**Quedaría validar que no se pueda hacer una reserva en el día actual en los horarios que ya pasaron (se tiene que hacer en el ajax que crea los botones)
 No se debería poder cancelar un turno cuya fecha es dentro de 2 horas o antes
 También mover los ajax de TEST a NEGOCIO y comprobar que funcionen bien
 Las reservas del mes que viene aparecen como "reserva expirada"
@@ -10,3 +10,5 @@ De documentación quedaría:
 - Mapa de navegación
 - Documento explicativo con información del proyecto e integrantes
 - Completar e imprimir planilla para presentar el día de la exposición
+
+Notación ** = Terminado
