@@ -120,7 +120,7 @@ foreach ($filiales as $filial) {
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <div class="row page-titles">
-                    <div class="col-md-9 col-8 align-self-center">
+                    <div class="col-md-8 col-10 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Reservas</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="../../">Inicio</a>
@@ -128,16 +128,24 @@ foreach ($filiales as $filial) {
                             <li class="breadcrumb-item active">Mis reservas</li>
                         </ol>
                     </div>
-                    <div class="col-md-3 col-3 align-self-right">
+                    <div class="col-md-4 col-md-offset text-nowrap" style="height: 30px;">
                         <?php
                         if(isset($_SESSION["mensajesCancelacion"])){
                           if($_SESSION["mensajesCancelacion"][0] == 1){
-                            echo '<div class="alert alert-success" role="alert"><center>';
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
                             echo $_SESSION["mensajesCancelacion"][1];
+                            echo '</center>';
                             echo '</center></div>';
                           }else{
-                            echo '<div class="alert alert-danger" role="alert">';
+                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
                             echo $_SESSION["mensajesCancelacion"][1];
+                            echo '</center>';
                             echo '</div>';
                           }
                           unset($_SESSION["mensajesCancelacion"]);
@@ -174,12 +182,12 @@ foreach ($filiales as $filial) {
                                                         <thead>
                                                             <tr>
                                                                 <th>#</th>
-                                                                <th>Sede</th>
-                                                                <th>Cancha</th>
-                                                                <th>Fecha</th>
-                                                                <th>Precio</th>
-                                                                <th>Estado</th>
-                                                                <th class="text-nowrap">Cancelar reserva</th>
+                                                                <th class="text-center">Sede</th>
+                                                                <th class="text-center">Cancha</th>
+                                                                <th class="text-center">Fecha</th>
+                                                                <th class="text-center">Categoría</th>
+                                                                <th class="text-center">Estado</th>
+                                                                <th class="text-nowrap text-center">Cancelar reserva</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -190,12 +198,12 @@ foreach ($filiales as $filial) {
                                                                 </td>
                                                                 <td>
                                                                     <?php echo $localidades[$turno->getIdFilial()]; ?></td>
-                                                                <td>
+                                                                <td class="text-nowrap" align="center">
                                                                     <?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()]; ?></td>
-                                                                <td><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
-                                                                <td>
+                                                                <td align="center"><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
+                                                                <td align="center">
                                                                     <?php echo $catCanchas[$turno->getIdCancha()]; ?></td>
-                                                                <td>
+                                                                <td align="center">
                                                                     <?php if ($turno->getEstado() == "reservada"){ 
 
                                                                         date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -212,7 +220,7 @@ foreach ($filiales as $filial) {
                                                                             echo '<div class="label label-table label-danger">'. "Cancelada" .'</div>'; 
                                                                         } ?>
                                                                 </td>
-                                                                <td class="text-nowrap">
+                                                                <td class="text-nowrap" align="center">
 
                                                                     <?php 
 
@@ -279,7 +287,7 @@ foreach ($filiales as $filial) {
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title">Eliminar Turno</h4>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body text-center">
                               
                                 <h4 class="modal-title">¿Seguro quieres cancelar la reserva?</h4>
                                 <i class="fa fa-clock-o"></i> <span id="modal-fecha"></span>

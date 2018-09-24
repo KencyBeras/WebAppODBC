@@ -20,8 +20,6 @@ $resultado =  $turnoDao->cancelarReserva($idTurno);
 
 unset($_SESSION["turnos"]);
 
-echo $resultado;
-
 //Enviando el resultado según corresponda
 $_SESSION["mensajesCancelacion"] = array();
 if($resultado==1){
@@ -31,7 +29,7 @@ else{
 	array_push($_SESSION["mensajesCancelacion"], 0, "No se ha podido cancelar la reserva");
 }
 
-header('Location: ../view/misReservas.php');
+header('Location: ../../');
 
 
 ?>

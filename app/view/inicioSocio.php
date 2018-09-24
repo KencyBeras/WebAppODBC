@@ -73,23 +73,31 @@ $filiales = $_SESSION['filiales'];
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <div class="row page-titles">
-                    <div class="col-md-9 col-10 align-self-center">
+                    <div class="col-md-8 col-10 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Reservar cancha</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="../../">Inicio</a></li>
                             <li class="breadcrumb-item active">Reservar cancha</li>
                         </ol>
                     </div>
-                    <div class="col-md-3 col-3 align-self-right">
+                    <div class="col-md-4 col-md-offset text-nowrap" style="height: 30px;">
                         <?php
                         if(isset($_SESSION["mensajesReserva"])){
                           if($_SESSION["mensajesReserva"][0] == 1){
-                            echo '<div class="alert alert-success" role="alert"><center>';
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
                             echo $_SESSION["mensajesReserva"][1];
-                            echo '</center></div>';
+                            echo "</center>";
+                            echo '</div>';
                           }else{
-                            echo '<div class="alert alert-danger" role="alert">';
+                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
                             echo $_SESSION["mensajesReserva"][1];
+                            echo '</center>';
                             echo '</div>';
                           }
                           unset($_SESSION["mensajesReserva"]);
