@@ -331,7 +331,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               $("#cancha").attr("disabled", false); //Desactivo el boton);
 
                               $.ajax({
-                                url: "../test/ajaxCanchas.php?",
+                                url: "../negocio/ajaxCanchas.php?",
                                 data: {
                                   idfilial: <?php echo $idFilial; ?>,
                                   deporte: $("select[id=deporte]").val(),
@@ -383,7 +383,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                       $(function () {
                         $('#consultarHorarios').on('click', function () {
                           $.ajax({
-                            url: "../test/ajaxReservar.php?",
+                            url: "../negocio/ajaxReservar.php?",
                             data: {
                               idfilial: <?php echo $idFilial; ?>,
                               fechaReserva: $("input[name=fecha]").val(),
