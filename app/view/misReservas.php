@@ -199,8 +199,14 @@ foreach ($filiales as $filial) {
                                                                 <td>
                                                                     <?php echo $localidades[$turno->getIdFilial()]; ?></td>
                                                                 <td class="text-nowrap" align="center">
-                                                                    <?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()]; ?></td>
-                                                                <td align="center"><span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> </td>
+                                                                    <?php echo "Cancha " . $numCanchas[$turno->getIdCancha()] . " - " . $depCanchas[$turno->getIdCancha()]; ?>
+                                                                    </td>
+                                                                <td align="center">
+                                                                    
+                                                                    <span style="display:none"> <?php echo date_format(date_create($turno->getFechahora()), 'Y/m/d H:i'); ?></span>
+
+                                                                    <span class="text-muted"><i class="fa fa-clock-o"></i> <?php echo $turno->getFechahoraFormat(); ?></span> 
+                                                                 </td>
                                                                 <td align="center">
                                                                     <?php echo $catCanchas[$turno->getIdCancha()]; ?></td>
                                                                 <td align="center">
@@ -209,9 +215,9 @@ foreach ($filiales as $filial) {
                                                                         date_default_timezone_set('America/Argentina/Buenos_Aires');
                                                                             
                                                                             $fecha_actual = date_create();
-                                                                            $fecha_reserva = $turno->getFechahoraFormat();
+                                                                            $fecha_reserva = date_create($turno->getFechahora());
 
-                                                                            if (date_format($fecha_actual, 'd/m/Y H:i') < $fecha_reserva){
+                                                                            if (date_format($fecha_actual, 'Y/m/d H:i') < date_format($fecha_reserva, 'Y/m/d H:i')){
                                                                                 echo '<div class="label label-table label-success">'. "Reservada" .'</div>';
                                                                             }else{
                                                                                 echo '<div class="label label-table label-warning">'. "Reservada" .'</div>';
@@ -220,7 +226,7 @@ foreach ($filiales as $filial) {
                                                                             echo '<div class="label label-table label-danger">'. "Cancelada" .'</div>'; 
                                                                         } ?>
                                                                 </td>
-                                                                <td class="text-nowrap" align="center">
+                                                                <td align="center">
 
                                                                     <?php 
 
@@ -229,11 +235,23 @@ foreach ($filiales as $filial) {
                                                                             date_default_timezone_set('America/Argentina/Buenos_Aires');
                                                                             
                                                                             $fecha_actual = date_create();
-                                                                            $fecha_reserva = $turno->getFechahoraFormat();
+                                                                            $fecha_reserva = date_create($turno->getFechahora());
 
-                                                                            if (date_format($fecha_actual, 'd/m/Y H:i') < $fecha_reserva){
+                                                                            //Si es el mismo día y restan entre 2 horas y 0 horas para la reserva de la cancha (si la resta es negativa quiere decir que ya expiró)
+                                                                            if (date_format($fecha_actual, 'Y/m/d')==date_format($fecha_reserva, 'Y/m/d') && 
+                                                                                ((int)date_format($fecha_reserva, 'H')-
+                                                                                (int)date_format($fecha_actual, 'H'))<=2 && 
+                                                                                ((int)date_format($fecha_reserva, 'H')-
+                                                                                (int)date_format($fecha_actual, 'H'))>0
+                                                                            ){
+                                                                                echo "Menos de 2 horas para la reserva";
+                                                                            }
+                                                                            //Si la reserva todavia no ocurrió y faltan mas de 2 horas para que ocurra
+                                                                            else if (date_format($fecha_actual, 'Y/m/d H:i') < date_format($fecha_reserva, 'Y/m/d H:i')){
                                                                                 echo '<button type="button" class="eliminarTurno btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-id="'. $turno->getIdTurno() .'" data-fecha="'. $turno->getFechahoraFormat() .'" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>';
-                                                                            }else{
+                                                                            }
+                                                                            //Si la reserva ya ocurrió
+                                                                            else{
                                                                                 echo "Reserva expirada";
                                                                             }
                                                                         }
