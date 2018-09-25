@@ -89,9 +89,9 @@
             <input class="form-control" type="text" required="" name="email" placeholder="Correo electrónico">
           </div>
         </div>
-        <div class="form-group text-center m-t-20">
-          <div class="col-xs-12">
-            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Registrarse</button>
+        <div class="form-group text-center m-t-15 m-b-0">
+          <div class="col-12">
+            <button class="btn btn-info btn-md btn-block text-uppercase waves-effect waves-light" type="submit">Registrarse</button>
           </div>
         </div>
         <div class="form-group m-b-0">
