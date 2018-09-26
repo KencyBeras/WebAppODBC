@@ -41,6 +41,34 @@ class TurnoDao {
         return $listaTurno;
     }
 
+    public function selectTurnosBetween($fechaDesde, $fechaHasta){
+        $datasource = new DataSource();
+        $listaTurno = array();
+        $turno = null;
+        try{
+            $sql = "SELECT * FROM turno WHERE fechahora between '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+            $result = $datasource->ejecutarQuery($sql);
+            while($fila = odbc_fetch_array($result)){
+                $idTurno = $fila['idturno'];
+                $idFilial = $fila['idfilial'];
+                $idCancha = $fila['idcancha'];
+                $idSocio = $fila['idsocio'];
+                $fechahora = $fila['fechahora'];
+                $estado = $fila['estado'];
+                $turno = new Turno($idTurno, $idFilial, $idCancha, $idSocio, $fechahora, $estado);
+
+                array_push($listaTurno, $turno);
+            }
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        finally{
+            odbc_close_all();
+        }
+        return $listaTurno;
+    }
+
 
     public function selectTurnosByFilial($idFilial){
         $datasource = new DataSource();

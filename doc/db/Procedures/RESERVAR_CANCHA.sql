@@ -28,7 +28,7 @@ BEGIN
 		AND (TIME(r_fechahora) between horario_apertura AND horario_cierre)
         AND (DAY(r_fechahora) != diames_mantenimiento);
         IF(fechahora_valida AND r_fechahora>fecha_actual) THEN
-			SELECT IFNULL(SUM(1), 0) INTO turno_existente FROM turno WHERE idcancha=r_idcancha AND fechahora=r_fechahora;
+			SELECT IFNULL(SUM(1), 0) INTO turno_existente FROM turno WHERE idcancha=r_idcancha AND fechahora=r_fechahora AND estado = 'reservada';
             IF(!turno_existente) THEN -- Se puede reservar la cancha correctamente
 				INSERT INTO turno (idfilial, idcancha, idsocio, fechahora, estado)
 				VALUES (r_idfilial, r_idcancha, r_idsocio, r_fechahora, 'reservada');

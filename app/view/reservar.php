@@ -420,10 +420,9 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                                 $.each(data, function(i, turno) {
                                   horaTurno = turno.fechahora.substr(11, 2);
                                   for(var i=horaInicio ; i<horaCierre ; i++){
-                                    if(i==horaTurno){
+                                    if(i==horaTurno && turno.estado == "reservada"){
                                       $("#hora"+i).addClass("btn btn-danger disabled"); //Cambio estilo del boton
                                       $("#hora"+i).attr("disabled", true); //Desactivo el boton
-
                                     }
                                   }
                                 });

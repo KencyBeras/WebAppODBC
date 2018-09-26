@@ -96,7 +96,7 @@ foreach ($filiales as $filial) {
 <body class="fix-header card-no-border">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== 
+    <!-- ============================================================== -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
@@ -272,12 +272,12 @@ foreach ($filiales as $filial) {
                                             <div class="form-body">
                                                 <div class="col-lg-6">
                                                     <div class="input-daterange input-group" id="date-range">
-                                                        <input type="text" class="form-control" name="start" placeholder="Desde" />
+                                                        <input type="text" class="form-control" name="fechaDesde" placeholder="Desde" />
                                                         <span class="input-group-addon bg-info b-0 text-white">></span>
-                                                        <input type="text" class="form-control" name="end" placeholder="hasta" />
+                                                        <input type="text" class="form-control" name="fechaHasta" placeholder="hasta" />
 
                                                         <div class="ml-2">
-                                                            <button id="buscarReservas" name="buscarReservas" type="submit" class="btn btn-success">Buscar</button>
+                                                            <button id="buscarReservas" name="buscarReservas" type="button" class="btn btn-success">Buscar</button>
                                                         </div>
                                                     </div>
 
@@ -287,14 +287,41 @@ foreach ($filiales as $filial) {
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <!-- end tabs -->
+
+                                      <script>
+                                      $(function () {
+                                        $('#buscarReservas').on('click', function () {
+                                          $.ajax({
+                                            url: "../negocio/ajaxReservar.php?",
+                                            data: {
+                                              fechaDesde: $("input[name=fechaDesde]").val(),
+                                              fechaHasta: $("input[name=fechaHasta]").val(),
+                                            },
+                                            type: 'GET', //{POST, GET}
+                                            dataType: "JSON", //{JSON, XML, TEXT, SCRIPT, HTML}
+                                            success: function(data) {
+                                                alert(data);
+                                            },
+
+                                            error : function (xhr, ajaxOptions, thrownError){  
+                                              console.log(xhr.status);          
+                                              console.log(thrownError);
+                                            } 
+                                          });
+                                        });
+                                      });
+
+                                      </script>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Row -->
 
-
+              
 
 
 
@@ -383,6 +410,8 @@ foreach ($filiales as $filial) {
     <script src="../../assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
     <script src="../../assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+
+
 
 
     <script type="text/javascript">
