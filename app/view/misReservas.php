@@ -272,9 +272,9 @@ foreach ($filiales as $filial) {
                                             <div class="form-body">
                                                 <div class="col-lg-6">
                                                     <div class="input-daterange input-group" id="date-range">
-                                                        <input type="text" class="form-control" name="fechaDesde" placeholder="Desde" />
+                                                        <input type="text" class="form-control" name="fechaDesde" placeholder="Desde"/>
                                                         <span class="input-group-addon bg-info b-0 text-white">></span>
-                                                        <input type="text" class="form-control" name="fechaHasta" placeholder="hasta" />
+                                                        <input type="text" class="form-control" name="fechaHasta" placeholder="hasta"/>
 
                                                         <div class="ml-2">
                                                             <button id="buscarReservas" name="buscarReservas" type="button" class="btn btn-success">Buscar</button>
@@ -293,8 +293,9 @@ foreach ($filiales as $filial) {
 
                                       <script>
                                       $(function () {
-                                        $('#buscarReservas').on('click', function () {
+                                        $('.buscarReservas').on('click', function () {
                                           $.ajax({
+                                            alert("entra")
                                             url: "../negocio/ajaxReservar.php?",
                                             data: {
                                               fechaDesde: $("input[name=fechaDesde]").val(),
