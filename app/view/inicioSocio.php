@@ -213,10 +213,6 @@ $filiales = $_SESSION['filiales'];
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="../../public/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 </body>
 
 </html>

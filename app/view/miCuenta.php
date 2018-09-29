@@ -145,6 +145,7 @@ $filiales = $_SESSION['filiales'];
                                       <div id="cambiarPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                           <div class="modal-dialog">
                                               <div class="modal-content">
+                                                <form action="../controller/controllerUpdatePassword.php" method="POST">
                                                   <div class="modal-header">
                                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                       <h4 class="modal-title">Cambiar contraseña</h4>
@@ -190,6 +191,7 @@ $filiales = $_SESSION['filiales'];
                                                       <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cancelar</button>
                                                       <button type="button" class="btn btn-info waves-effect waves-light">Actualizar</button>
                                                   </div>
+                                                  </form>
                                               </div>
                                           </div>
                                       </div>
@@ -248,10 +250,6 @@ $filiales = $_SESSION['filiales'];
     <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="../../public/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="../../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
     <!-- Scripts para ver la password en formulario de recuperacion de password -->
     <script type="text/javascript">
