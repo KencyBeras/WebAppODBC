@@ -44,37 +44,58 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../public/img/favicon.png">
     <title>Reservar cancha en <?php echo $sede->getLocalidad(); ?></title>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../../assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="../../public/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="../../public/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="../../public/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="../../assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="../../public/js/custom.min.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <!-- ============================================================== -->
+    <!-- Plugins for this page -->
+    <!-- ============================================================== -->
+    <!-- Plugin JavaScript -->
+    <script src="../../assets/plugins/moment/moment.js"></script>
+    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="../../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-    <!-- Page plugins css -->
-    <link href="../../assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+
     <!-- Custom CSS -->
     <link href="../../public/css/style.css" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="../../public/css/colors/green-dark.css" id="theme" rel="stylesheet">
     <!-- Date picker plugins css -->
     <link href="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker plugins css -->
-    <link href="../../assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-
-
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="../../assets/plugins/jquery/jquery.min.js"></script>
-    <!--stickey kit -->
-    <script src="../../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>  <!-- DATEPICKER! -->
-    <!--Custom JavaScript -->
-    <script src="../../public/js/custom.min.js"></script>
-
+   
 </head>
 
 <body class="fix-header card-no-border">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== 
+    <!-- ============================================================== --> 
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
@@ -118,11 +139,9 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
 
                 <form action="../controller/ReservarController.php" method="POST">
 
-                  <input type="hidden" name="idFilial" value="<?php echo $idFilial; ?>">
-                  <input type="hidden" name="numAfiliado" value="<?php echo $socio->num_afiliado; ?>">
-                  <input type="hidden" id="fechaHora" name="fechaHora" value="" >
-
-
+                    <input type="hidden" name="idFilial" value="<?php echo $idFilial; ?>">
+                    <input type="hidden" name="numAfiliado" value="<?php echo $socio->num_afiliado; ?>">
+                    <input type="hidden" id="fechaHora" name="fechaHora" value="">
 
                 <div class="row">
                     <div class="col-md-12 col-12">
@@ -397,7 +416,21 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
 
                       </script>
 
-  
+    <script>
+    jQuery('#datepicker-autoclose').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+
+    </script>
+
+    <script>
+    jQuery(document).ready(function() {
+        $("#datepicker-autoclose").datepicker({
+          minDate: new Date()
+        });
+    });
+    </script>
 
     <script>
     var query = 0;
@@ -424,38 +457,6 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
     });
     </script>
 
-
-    <!-- ============================================================== -->
-    <!-- Plugins for this page -->
-    <!-- ============================================================== -->
-    <!-- Plugin JavaScript -->
-    <script src="../../assets/plugins/moment/moment.js"></script> <!-- DATEPICKER! -->
-    <script src="../../assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script> <!-- DATEPICKER! -->
-    <!-- Clock Plugin JavaScript -->
-    <script src="../../assets/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
-    <!-- Color Picker Plugin JavaScript -->
-    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-    <script src="../../assets/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-    <script src="../../assets/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-    <!-- Date Picker Plugin JavaScript -->
-    <script src="../../assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-
-    <script>
-    // Date Picker
-    jQuery('.mydatepicker, #datepicker').datepicker();
-    jQuery('#datepicker-autoclose').datepicker({
-        placement: 'bottom',
-        orientation: "auto",
-        autoclose: true,
-        todayHighlight: true
-    });
-    jQuery('#date-range').datepicker({
-        toggleActive: true
-    });
-    jQuery('#datepicker-inline').datepicker({
-        todayHighlight: true
-    });
-    </script>
 
 
                             
