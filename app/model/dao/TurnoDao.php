@@ -182,6 +182,22 @@ class TurnoDao {
         return $resultado;
     }
 
+    public function updateReserva($idturno, $fechahora){
+        $datasource = new DataSource();
+        $resultado = null;
+        try{
+            $sql = "UPDATE turno SET fechahora='" .$fechahora. "' WHERE idturno=" .$idturno;
+            $resultado = $datasource->ejecutarQuery($sql);
+            $resultado = odbc_num_rows($resultado); //Cantidad de filas afectadas (si es correcto devuelve un 1)
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        finally{
+            odbc_close_all();
+        }
+        return $resultado;
+    }
 
     public function cancelarReserva($idturno){
         $datasource = new DataSource();

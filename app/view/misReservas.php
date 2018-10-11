@@ -143,6 +143,26 @@ foreach ($filiales as $filial) {
                           }
                           unset($_SESSION["mensajesCancelacion"]);
                         }
+                        if(isset($_SESSION["mensajesModificacion"])){
+                          if($_SESSION["mensajesModificacion"][0] == 1){
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
+                            echo $_SESSION["mensajesModificacion"][1];
+                            echo '</center>';
+                            echo '</center></div>';
+                          }else{
+                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><center>';
+                            echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                  <span aria-hidden='true'>&times;</span>
+                                  </button>";
+                            echo $_SESSION["mensajesModificacion"][1];
+                            echo '</center>';
+                            echo '</div>';
+                          }
+                          unset($_SESSION["mensajesModificacion"]);
+                        }
                         
                         ?>
                     </div>
@@ -154,7 +174,11 @@ foreach ($filiales as $filial) {
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <form action="../controller/CancelarTurnoController.php" method="POST">
-                  <input type="hidden" id="idTurnoACancelar" name="idTurnoACancelar" value=""> 
+                  <input type="hidden" id="idTurnoACancelar" name="idTurnoACancelar" value="0">
+                  <input type="hidden" id="idFilialAModificar" name="idFilialAModificar" value="0">
+                  <input type="hidden" id="idTurnoAModificar" name="idTurnoAModificar" value="0">
+                  <input type="hidden" id="idFechaAModificar" name="idFechaAModificar" value="0">
+                  <input type="hidden" id="idCanchaAModificar" name="idCanchaAModificar" value="0">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -180,7 +204,7 @@ foreach ($filiales as $filial) {
                                                                 <th class="text-center">Fecha</th>
                                                                 <th class="text-center">Categoría</th>
                                                                 <th class="text-center">Estado</th>
-                                                                <th class="text-nowrap text-center">Cancelar reserva</th>
+                                                                <th class="text-nowrap text-center">Acciones</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -241,6 +265,7 @@ foreach ($filiales as $filial) {
                                                                             }
                                                                             //Si la reserva todavia no ocurrió y faltan mas de 2 horas para que ocurra
                                                                             else if (date_format($fecha_actual, 'Y/m/d H:i') < date_format($fecha_reserva, 'Y/m/d H:i')){
+                                                                                echo '<button type="button" class="modificarTurno btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-id="'. $turno->getIdTurno() .'" data-fecha="'. $turno->getFechahora() .'" data-filial="'. $turno->getIdFilial() .'" data-cancha="'. $turno->getIdCancha() .'" data-target="#modificarTurno"> <i class="fa fa-pencil text-primary "></i> </button>';
                                                                                 echo '<button type="button" class="eliminarTurno btn btn-outline-danger waves-effect waves-light" data-toggle="modal" data-id="'. $turno->getIdTurno() .'" data-fecha="'. $turno->getFechahoraFormat() .'" data-target="#eliminarTurno"> <i class="fa fa-close text-danger "></i> </button>';
                                                                             }
                                                                             //Si la reserva ya ocurrió
@@ -342,6 +367,29 @@ foreach ($filiales as $filial) {
                     </div>
                 </div>
 
+                <div id="modificarTurno" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Modificar turno</h4>
+                            </div>
+                            <div class="modal-body text-center">
+                              
+                                <h4 class="modal-title">¿Seguro quieres modificar la reserva?</h4>
+                                <i class="fa fa-clock-o"></i> <span id="modal-fechaM"></span>
+                                <br><br>
+                                <div class="modal-footer">
+                                    
+                                      <button type="button" class="btn btn-info waves-effect" data-dismiss="modal">Volver</button>
+                                      <button id="modificar" type="submit" formaction="../controller/ReservarController.php" class="btn btn-danger waves-effect waves-light">Modificar Reserva</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 </form>
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -398,6 +446,22 @@ foreach ($filiales as $filial) {
             $("#modal-turno").html(dataId);
             $("#modal-fecha").html(dataFecha);
             $("input[name='idTurnoACancelar']").val(dataId);
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.modificarTurno').on('click', function() {
+            var dataId = $(this).attr("data-id");
+            var dataFechaHora = $(this).attr("data-fecha");
+            var dataFecha = dataFechaHora.substr(0,10);
+            var dataFilial = $(this).attr("data-filial");
+            var dataCancha = $(this).attr("data-cancha");
+            $("#modal-turnoM").html(dataId);
+            $("#modal-fechaM").html(dataFechaHora);
+            $("input[name='idTurnoAModificar']").val(dataId);
+            $("input[name='idFilialAModificar']").val(dataFilial);
+            $("input[name='idFechaAModificar']").val(dataFecha);
+            $("input[name='idCanchaAModificar']").val(dataCancha);
         });
 
     </script>

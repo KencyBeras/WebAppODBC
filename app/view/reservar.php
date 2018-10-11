@@ -120,16 +120,8 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                 <!-- ============================================================== -->
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-5 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0"><?php echo $sede->getLocalidad(); ?></h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="../../">Inicio</a></li>
-                            <li class="breadcrumb-item"><a href="../../">Reservar cancha</a></li>
-                            <li class="breadcrumb-item active"><?php echo $sede->getLocalidad(); ?></li>
-                        </ol>
-                    </div>
-                </div>
+                <?php if(isset($_SESSION["datosMod"])) require('subheader_modificar.php');
+                      else require('subheader_reservar.php');?>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
@@ -142,6 +134,8 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                     <input type="hidden" name="idFilial" value="<?php echo $idFilial; ?>">
                     <input type="hidden" name="numAfiliado" value="<?php echo $socio->num_afiliado; ?>">
                     <input type="hidden" id="fechaHora" name="fechaHora" value="">
+                    <input type="hidden" id="turnoUpdate" name="turnoUpdate">
+                    <input type="hidden" id="esModificacion" name="esModificacion" value="0">
 
                 <div class="row">
                     <div class="col-md-12 col-12">
@@ -182,7 +176,7 @@ $diaMantenimiento = $sede->getDiames_mantenimiento();
                               <div class="row">
                                   <div class="col-sm-4">
                                         <div class="input-group">
-                                            <input name="fecha" type="text" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
+                                            <input name="fecha" type="text" autocomplete="off" class="form-control" id="datepicker-autoclose" placeholder="dd/mm/aaaa">
                                             <span class="input-group-addon"><i class="icon-calender"></i></span>
                                         </div>
                                   </div>
