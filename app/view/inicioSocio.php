@@ -123,11 +123,43 @@ $filiales = $_SESSION['filiales'];
                             $localidad = explode(' ', $filial->getLocalidad())[0]; //Primera palabra de la localidad
                             $idFilial = $filial->getIdFilial();
                         ?>
-                          <div class="col-lg-3 col-md-6">
+                          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                               <!-- Card -->
-                              <div class="card">
+                              <div class="card ">
+
+                                  <?php 
+                                  
+                                  $filename = ('../../public/img/' . $localidad . 'Futbol.jpg');
+
+
+                                  if (file_exists($filename)) {
+                                  ?>
+
                                   <img class="card-img-top img-responsive"
-                                  src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="Card image cap">
+                                    src='../../public/img/<?php echo $localidad . 'Futbol.jpg';?>' alt="Card image cap">
+                                    
+                                  <?php 
+
+                                  } else {
+                                   ?>
+
+
+                                    <img class="card-img-top img-responsive" src='../../public/img/logo.png' alt="Card image cap">
+
+
+                                    <?php 
+
+                                    }
+                                    
+                                    ?>
+
+
+                                  
+
+                                  
+                                  
+
+                                  
                                   <div id="panelsedes" class="card-body">
                                       <h4 class="card-title">
                                           <?php 
