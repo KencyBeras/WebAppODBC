@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/andresfiloso/WebAppODBC/badge.svg?branch=master)](https://coveralls.io/github/andresfiloso/WebAppODBC?branch=master)
+
 # WebAppODBC
 Gestión de reserva de turnos
 
